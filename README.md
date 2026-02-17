@@ -14,6 +14,15 @@ sudo bootc switch ghcr.io/<your-username>/zaatar:latest
 
 Then reboot.
 
+## Download disk image (QCOW2) or installer (ISO)
+
+After **Build disk images** runs in Actions, download from **Artifacts**:
+
+- **disk-qcow2** → download as ZIP → inside: **qcow2/disk.qcow2** (for VM).
+- **disk-anaconda-iso** → download as ZIP → inside: **bootiso/install.iso** (for installation).
+
+Full steps and paths: [docs/DOWNLOAD.md](docs/DOWNLOAD.md).
+
 ## Build and develop
 
 - **Local image build:** `just build` (requires [just](https://just.systems/) and Podman).

@@ -16,7 +16,8 @@ on:
 env:
   IMAGE_DESC: "Zaatar – Arabic/English desktop OS based on Universal Blue Bluefin"
   IMAGE_KEYWORDS: "bootc,ublue,universal-blue,arabic,arabic-locale,zaatar"
-  IMAGE_LOGO_URL: "https://avatars.githubusercontent.com/u/120078124?s=200&v=4"  # Put your own image here for a fancy profile on https://artifacthub.io/!
+  # Zaatar logo for Artifact Hub / GHCR. Add logo.png (e.g. 200x200) to repo root to use it.
+  IMAGE_LOGO_URL: "https://raw.githubusercontent.com/${{ github.repository_owner }}/${{ github.event.repository.name }}/main/logo.png"
   IMAGE_NAME: "${{ github.event.repository.name }}"  # output image name, usually same as repo name
   IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}"  # do not edit
   DEFAULT_TAG: "latest"

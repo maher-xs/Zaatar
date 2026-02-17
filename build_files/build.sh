@@ -30,6 +30,14 @@ echo "LANG=ar_SY.UTF-8" > /etc/locale.conf
 echo "LANGUAGE=ar_SY:ar:en_US:en" >> /etc/locale.conf
 ln -sf /usr/share/zoneinfo/Asia/Damascus /etc/localtime
 
+# Default input sources: US English + Arabic (m17n:ar:kbd) so Arabic keyboard is available without manual setup
+mkdir -p /etc/dconf/db/local.d
+cat > /etc/dconf/db/local.d/01-zaatar-input-sources << 'EOF'
+[org/gnome/desktop/input-sources]
+sources=[('xkb', 'us'), ('ibus', 'm17n:ar:kbd')]
+EOF
+dconf update
+
 # OS branding (display name stays in Arabic: Zaatar)
 sed -i 's/^NAME=.*/NAME="زعتر"/' /etc/os-release
 sed -i 's/^PRETTY_NAME=.*/PRETTY_NAME="زعتر 1.0"/' /etc/os-release
