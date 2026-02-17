@@ -36,7 +36,11 @@ concurrency:
 jobs:
   build:
     name: Build disk images
-    runs-on: ${{ inputs.platform == 'amd64' && 'ubuntu-24.04' || 'ubuntu-24.04-arm' }}
+    # Default to amd64 so PRs and manual runs match the image (build.yml produces amd64).
+    # Avoids "platform (linux/amd64) does not match expected (linux/arm64)" and digest lookup errors.
+    runs-on: ${{ (github.event_name == 'workflow_dispatch' && inputs.platform == 'arm64') && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
+    env:
+      PLATFORM: ${{ github.event_name == 'workflow_dispatch' && inputs.platform || 'amd64' }}
     strategy:
       fail-fast: false
       matrix:
@@ -68,14 +72,23 @@ jobs:
           sudo apt install -y \
             podman
 
-      - name: Maximize build space
-        if: inputs.platform != 'arm64'
-        uses: ublue-os/remove-unwanted-software@cc0becac701cf642c8f0a6613bbdaf5dc36b259e # v9
-        with:
-          remove-codeql: true
+      # Disabled: step is slow and often canceled when another run starts (concurrency).
+      # Runner usually has enough free space (~92GB) for one disk image. Re-enable if builds run out of space.
+      # - name: Maximize build space
+      #   if: inputs.platform != 'arm64'
+      #   uses: ublue-os/remove-unwanted-software@cc0becac701cf642c8f0a6613bbdaf5dc36b259e # v9
+      #   with:
+      #     remove-codeql: true
 
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      # Pull image with explicit platform so it exists in root's container storage before BIB.
+      # Fixes "no such object" digest errors and platform mismatch (amd64 image vs arm64 runner).
+      - name: Pull image for target platform
+        run: |
+          IMAGE_FULL="${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}"
+          sudo podman pull --platform linux/${{ env.PLATFORM }} "$IMAGE_FULL"
 
       - name: Build disk images
         id: build
@@ -86,7 +99,8 @@ jobs:
           image: ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}
           chown: ${{ env.USER_UID }}:${{ env.USER_GID }}
           types: ${{ matrix.disk-type }}
-          additional-args: --use-librepo=True
+          rootfs: btrfs
+          additional-args: --use-librepo=True --rootfs=btrfs
 
       - name: Upload disk images and Checksum to Job Artifacts
         if: inputs.upload-to-s3 != true && github.event_name != 'pull_request'

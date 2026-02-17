@@ -1,7 +1,8 @@
+# Root and /boot required; types come from workflow rootfs: btrfs (root) and builder default for /boot.
+[[customizations.filesystem]]
+mountpoint = "/boot"
+minsize = "512 MiB"
+
 [[customizations.filesystem]]
 mountpoint = "/"
 minsize = "10 GiB"
-
-[[customizations.filesystem]]
-mountpoint = "/boot"
-minsize = "1 GiB"
