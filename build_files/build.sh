@@ -7,12 +7,10 @@ rpm-ostree install \
     google-noto-kufi-arabic-fonts \
     hunspell-ar \
     ibus-m17n \
-    m17n-db-arabic \
     libreoffice-langpack-ar \
-    firefox-langpack-ar \
     gnome-tweaks \
     git curl
-
+    
 git clone https://github.com/kayozxo/GNOME-macOS-Tahoe /tmp/Tahoe
 cd /tmp/Tahoe
 ./install.sh -d --color blue -la
