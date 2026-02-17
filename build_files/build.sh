@@ -1,24 +1,32 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -eoux pipefail
 
-set -ouex pipefail
+rpm-ostree install \
+    langpacks-ar langpacks-en \
+    google-noto-sans-arabic-fonts \
+    google-noto-kufi-arabic-fonts \
+    hunspell-ar \
+    ibus-m17n \
+    m17n-db-arabic \
+    libreoffice-langpack-ar \
+    firefox-langpack-ar \
+    gnome-tweaks \
+    git curl
 
-### Install packages
+git clone https://github.com/kayozxo/GNOME-macOS-Tahoe /tmp/Tahoe
+cd /tmp/Tahoe
+./install.sh -d --color blue -la
+./install.sh -w
+cd /
 
-# Packages can be installed from any enabled yum repo on the image.
-# RPMfusion repos are available by default in ublue main images
-# List of rpmfusion packages can be found here:
-# https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/43/x86_64/repoview/index.html&protocol=https&redirect=1
+flatpak override --filesystem=xdg-config/gtk-3.0
+flatpak override --filesystem=xdg-config/gtk-4.0
 
-# this installs a package from fedora repos
-dnf5 install -y tmux 
+echo "LANG=ar_SY.UTF-8" > /etc/locale.conf
+echo "LANGUAGE=ar_SY:ar:en_US:en" >> /etc/locale.conf
+ln -sf /usr/share/zoneinfo/Asia/Damascus /etc/localtime
 
-# Use a COPR Example:
-#
-# dnf5 -y copr enable ublue-os/staging
-# dnf5 -y install package
-# Disable COPRs so they don't end up enabled on the final image:
-# dnf5 -y copr disable ublue-os/staging
+sed -i 's/^NAME=.*/NAME="زعتر"/' /etc/os-release
+sed -i 's/^PRETTY_NAME=.*/PRETTY_NAME="زعتر 1.0"/' /etc/os-release
 
-#### Example for enabling a System Unit File
-
-systemctl enable podman.socket
+ostree container commit
