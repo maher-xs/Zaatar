@@ -13,8 +13,8 @@ rpm-ostree install \
     
 git clone https://github.com/kayozxo/GNOME-macOS-Tahoe /tmp/Tahoe
 cd /tmp/Tahoe
-./install.sh -d --color blue -la
-./install.sh -w
+HOME=/tmp ./install.sh -d --color blue -la
+HOME=/tmp ./install.sh -w
 cd /
 
 flatpak override --filesystem=xdg-config/gtk-3.0
