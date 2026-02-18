@@ -11,10 +11,14 @@ on:
       - main
     paths-ignore:
       - '**/README.md'
+      - '**/README.ar.md'
+      - '**/docs/**'
+      - '**/SECURITY.md'
+      - '**/CONTRIBUTING.md'
   workflow_dispatch:
 
 env:
-  IMAGE_DESC: "Zaatar – Arabic/English desktop OS based on Universal Blue Bluefin"
+  IMAGE_DESC: "Zaatar – Arabic/English desktop OS based on Universal Blue"
   IMAGE_KEYWORDS: "bootc,ublue,universal-blue,arabic,arabic-locale,zaatar"
   # Zaatar logo for Artifact Hub / GHCR. Add logo.png (e.g. 200x200) to repo root to use it.
   IMAGE_LOGO_URL: "https://raw.githubusercontent.com/${{ github.repository_owner }}/${{ github.event.repository.name }}/main/logo.png"
@@ -23,11 +27,22 @@ env:
   DEFAULT_TAG: "latest"
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref || github.run_id }}-${{ inputs.brand_name}}-${{ inputs.stream_name }}
+  group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
   cancel-in-progress: true
 
 jobs:
+  lint:
+    name: Lint scripts
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - name: ShellCheck
+        run: |
+          sudo apt-get update && sudo apt-get install -y shellcheck
+          shellcheck build_files/build.sh
+
   build_push:
+    needs: lint
     name: Build and push image
     runs-on: ubuntu-24.04
 

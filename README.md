@@ -1,6 +1,6 @@
 # Zaatar (زعتر)
 
-**Zaatar** is an Arabic/English desktop OS image based on [Universal Blue](https://universal-blue.org/) Bluefin. The system is branded as **Zaatar** (in Latin script) everywhere: installer, first boot, login screen, and OS name. It ships with Arabic and English language support, Syrian locale and timezone (Damascus), Noto Arabic fonts, and a macOS-like GNOME theme (Tahoe).
+**Zaatar** is an Arabic/English desktop OS image based on [Universal Blue](https://universal-blue.org/) Bluefin. The system is branded as **Zaatar** (in Latin script) everywhere: installer, first boot, login screen, and OS name. It ships with Arabic and English language support, Syrian locale and timezone (Damascus), Noto Arabic fonts, Tahoe theme (macOS-like GNOME), custom Zaatar wallpaper, and Papirus icons.
 
 - **Languages:** Arabic (ar_SY) and English (en_US). Both are installed; you can switch from **Settings → Region & Language** (add English or Arabic and choose the display language). Account names in English (Latin letters) are fully supported.
 - **Base:** [ghcr.io/ublue-os/bluefin:stable](https://github.com/ublue-os/bluefin) (bootc).
@@ -9,10 +9,10 @@
 ## Switch to Zaatar (from a bootc system)
 
 ```bash
-sudo bootc switch ghcr.io/<your-username>/zaatar:latest
+sudo bootc switch ghcr.io/maher-xs/zaatar:latest
 ```
 
-Then reboot.
+Then reboot. (If you use a fork, replace `maher-xs` with your GitHub username.)
 
 ## Switching between Arabic and English
 
@@ -38,13 +38,20 @@ Full steps and paths: [docs/DOWNLOAD.md](docs/DOWNLOAD.md).
 
 - **Local image build:** `just build` (requires [just](https://just.systems/) and Podman).
 - **VM image and run:** `just build-qcow2` then `just run-vm-qcow2`.
-- **Project layout and where to change things:** see [docs/PROJECT.md](docs/PROJECT.md).
+- **Project layout:** see [docs/PROJECT.md](docs/PROJECT.md) for structure and where to change things.
 
 ## Setup (one-time)
 
 1. **Cosign key** – Create a key pair, add the private key as GitHub secret `SIGNING_SECRET`, and keep `cosign.pub` in the repo. See [Universal Blue image template](https://github.com/ublue-os/image-template) for detailed steps.
 2. **Base image** – The Containerfile uses `ghcr.io/ublue-os/bluefin:stable`. Change the `FROM` line if you want another base.
 3. **Justfile** – The default image name is `Zaatar`; override with `IMAGE_NAME` if needed.
+
+## Documentation
+
+- [System checklist](docs/CHECKLIST.md) – everything included, ready to use
+- [Arabic README](README.ar.md)
+- [Change language/region](docs/LOCALE.md)
+- [GNOME extensions](docs/EXTENSIONS.md) – Open Bar, Blur my Shell, Dash to Dock, etc.
 
 ## Community
 

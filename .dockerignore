@@ -1,0 +1,13 @@
+.git
+.github
+.gitignore
+*.md
+docs
+LICENSE
+Justfile
+Containerfile.save
+disk-anaconda-iso.zip
+disk-*.zip
+output
+_build*
+cosign.key

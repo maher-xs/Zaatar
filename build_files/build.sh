@@ -3,12 +3,20 @@
 # Arabic + English – user can switch between both in Settings > Region & Language.
 set -eoux pipefail
 
-# Language packs and input: Arabic + English (user switches in Settings > Region & Language)
+# Language packs, fonts, input, spellcheck, icons: Arabic + English (user switches in Settings > Region & Language)
 rpm-ostree install \
     langpacks-ar langpacks-en \
     google-noto-sans-arabic-fonts \
     google-noto-kufi-arabic-fonts \
-    ibus-m17n
+    google-noto-sans-fonts \
+    hunspell-ar \
+    hunspell-en-US \
+    ibus-m17n \
+    papirus-icon-theme \
+    gnome-shell-extension-dash-to-dock \
+    gnome-shell-extension-blur-my-shell \
+    gnome-extensions-app \
+    git
 
 # Bilingual locale: Arabic (Syria) and English (US). Both available so user can switch.
 echo "LANG=ar_SY.UTF-8" > /etc/locale.conf
@@ -33,6 +41,68 @@ cat > /etc/dconf/db/local.d/02-zaatar-region << 'EOF'
 [org/gnome/system/locale]
 region='ar_SY.UTF-8'
 EOF
+
+# Tahoe theme (macOS-like GNOME): dark + blue accent + libadwaita + wallpapers. Use HOME=/tmp so install.sh does not touch /root.
+git clone --depth 1 https://github.com/kayozxo/GNOME-macOS-Tahoe /tmp/Tahoe
+cd /tmp/Tahoe
+HOME=/tmp ./install.sh -d --color blue -la
+HOME=/tmp ./install.sh -w
+cd /
+
+# Zaatar custom wallpaper: install to system backgrounds and set as default (PNG preferred over SVG)
+mkdir -p /usr/share/backgrounds/zaatar
+WALLPAPER_URI=""
+if [ -f /tmp/zaatar-assets/wallpapers/zaatar-wallpaper.png ]; then
+  cp /tmp/zaatar-assets/wallpapers/zaatar-wallpaper.png /usr/share/backgrounds/zaatar/
+  WALLPAPER_URI="file:///usr/share/backgrounds/zaatar/zaatar-wallpaper.png"
+elif [ -f /tmp/zaatar-assets/wallpapers/zaatar-wallpaper.svg ]; then
+  cp /tmp/zaatar-assets/wallpapers/zaatar-wallpaper.svg /usr/share/backgrounds/zaatar/
+  WALLPAPER_URI="file:///usr/share/backgrounds/zaatar/zaatar-wallpaper.svg"
+fi
+# Also install ultrawide variant if present (user can select from Settings > Appearance)
+[ -f /tmp/zaatar-assets/wallpapers/zaatar-wallpaper-ultrawide.png ] && \
+  cp /tmp/zaatar-assets/wallpapers/zaatar-wallpaper-ultrawide.png /usr/share/backgrounds/zaatar/
+
+# Default appearance: Zaatar wallpaper (if present) + Papirus icons
+cat > /etc/dconf/db/local.d/03-zaatar-appearance << EOF
+[org/gnome/desktop/interface]
+icon-theme='Papirus'
+EOF
+if [ -n "$WALLPAPER_URI" ]; then
+  cat >> /etc/dconf/db/local.d/03-zaatar-appearance << EOF
+
+[org/gnome/desktop/background]
+picture-uri='$WALLPAPER_URI'
+picture-uri-dark='$WALLPAPER_URI'
+picture-options='zoom'
+EOF
+fi
+
+# Enable Dash to Dock and Blur my Shell by default for all users (system-wide)
+mkdir -p /etc/dconf/profile
+echo -e 'user-db:user\nsystem-db:local' > /etc/dconf/profile/user
+cat > /etc/dconf/db/local.d/04-zaatar-extensions << 'EOF'
+[org/gnome/shell]
+enabled-extensions=['dash-to-dock@micxgx.gmail.com', 'blur-my-shell@aunetx']
+EOF
+# Dash to Dock: bottom, icon size, show on all monitors
+mkdir -p /etc/dconf/db/local.d
+cat >> /etc/dconf/db/local.d/04-zaatar-extensions << 'EOF'
+
+[org/gnome/shell/extensions/dash-to-dock]
+dock-position='BOTTOM'
+extend-height=false
+dock-fixed=true
+show-apps-at-top=false
+show-mounts=false
+show-trash=false
+apply-custom-theme=false
+EOF
+
+# Allow Flatpaks to use host GTK config (theme)
+flatpak override --filesystem=xdg-config/gtk-3.0 2>/dev/null || true
+flatpak override --filesystem=xdg-config/gtk-4.0 2>/dev/null || true
+
 dconf update
 
 # OS branding: "Zaatar" only – no Bluefin or other base names visible to user

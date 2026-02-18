@@ -2,6 +2,10 @@
 name: Build disk images
 
 on:
+  workflow_run:
+    workflows: ["Build container image"]
+    types: [completed]
+    branches: [main]
   workflow_dispatch:
     inputs:
       upload-to-s3:
@@ -21,6 +25,9 @@ on:
     paths:
       - './disk_config/disk.toml'
       - './disk_config/iso.toml'
+      - './build_files/build.sh'
+      - './Containerfile'
+      - './assets/**'
       - './.github/workflows/build-disk.yml'
 
 env:
@@ -36,6 +43,7 @@ concurrency:
 jobs:
   build:
     name: Build disk images
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     # Default to amd64 so PRs and manual runs match the image (build.yml produces amd64).
     # Avoids "platform (linux/amd64) does not match expected (linux/arm64)" and digest lookup errors.
     runs-on: ${{ (github.event_name == 'workflow_dispatch' && inputs.platform == 'arm64') && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
@@ -67,7 +75,7 @@ jobs:
           echo "USER_GID=${USER_GID}" >> ${GITHUB_ENV}
 
       - name: Install dependencies
-        if: inputs.platform == 'arm64'
+        if: github.event_name == 'workflow_dispatch' && inputs.platform == 'arm64'
         run: |
           set -x
           sudo apt update -y
@@ -111,7 +119,7 @@ jobs:
           name: disk-${{ matrix.disk-type }}
           path: ${{ steps.build.outputs.output-directory }}
           if-no-files-found: error
-          retention-days: 0
+          retention-days: 14
           compression-level: 0
           overwrite: true
       

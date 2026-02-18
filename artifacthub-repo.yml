@@ -1,8 +1,8 @@
 # Optional: index this image on https://artifacthub.io/
-# Sign up at Artifact Hub and set your Repository ID below. Owners are optional.
-# Examples: https://artifacthub.io/packages/search?ts_query_web=ublue&sort=relevance&page=1
+# Sign up at Artifact Hub, create a repository, and set repositoryID below.
+# See: https://artifacthub.io/docs/topics/repositories/
 
-repositoryID: my-custom-id-here  # Replace with your Artifact Hub repository ID
-owners:  # Optional, for claiming repository ownership
-  - name: Your Name
-    email: your_email@example.com
+repositoryID: zaatar
+owners:
+  - name: Zaatar
+    email: zaatar@example.com
