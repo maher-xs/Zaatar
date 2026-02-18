@@ -2,7 +2,7 @@
 
 **Zaatar** is an Arabic/English desktop OS image based on [Universal Blue](https://universal-blue.org/) Bluefin. It ships with Arabic and English language support, Syrian locale and timezone (Damascus), Noto Arabic fonts, and a macOS-like GNOME theme (Tahoe).
 
-- **Languages:** Arabic (ar_SY) and English (en_US).
+- **Languages:** Arabic (ar_SY) and English (en_US). Both are installed; you can switch from **Settings → Region & Language** (add English or Arabic and choose the display language). Account names in English (Latin letters) are fully supported.
 - **Base:** [ghcr.io/ublue-os/bluefin:stable](https://github.com/ublue-os/bluefin) (bootc).
 - **Build:** Single-stage Containerfile + `build_files/build.sh`; CI builds and signs the image and can produce disk/ISO images.
 
@@ -13,6 +13,17 @@ sudo bootc switch ghcr.io/<your-username>/zaatar:latest
 ```
 
 Then reboot.
+
+## Switching between Arabic and English
+
+The system is bilingual. To change the interface language:
+
+1. Open **Settings** (الإعدادات).
+2. Go to **Region & Language** (المنطقة واللغة).
+3. Under **Language** (اللغة), click **Add Language** (إضافة لغة) and add **English (United States)** or **العربية** if not already there.
+4. Select the language you want and move it to the top of the list, or choose it as the display language.
+
+Keyboard: you already have **English (US)** and **Arabic**; switch with the keyboard icon in the top bar or with the shortcut (e.g. Super+Space).
 
 ## Download disk image (QCOW2) or installer (ISO)
 
