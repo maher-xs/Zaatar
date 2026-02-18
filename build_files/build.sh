@@ -10,7 +10,7 @@ rpm-ostree install \
     google-noto-kufi-arabic-fonts \
     google-noto-sans-fonts \
     hunspell-ar \
-    hunspell-en-us \
+    hunspell-en-US \
     ibus-m17n \
     libreoffice-langpack-ar \
     libreoffice-langpack-en \
