@@ -1,6 +1,6 @@
 # Zaatar (زعتر)
 
-**Zaatar** is an Arabic/English desktop OS image based on [Universal Blue](https://universal-blue.org/) Bluefin. It ships with Arabic and English language support, Syrian locale and timezone (Damascus), Noto Arabic fonts, and a macOS-like GNOME theme (Tahoe).
+**Zaatar** is an Arabic/English desktop OS image based on [Universal Blue](https://universal-blue.org/) Bluefin. The system is branded as **Zaatar** (in Latin script) everywhere: installer, first boot, login screen, and OS name. It ships with Arabic and English language support, Syrian locale and timezone (Damascus), Noto Arabic fonts, and a macOS-like GNOME theme (Tahoe).
 
 - **Languages:** Arabic (ar_SY) and English (en_US). Both are installed; you can switch from **Settings → Region & Language** (add English or Arabic and choose the display language). Account names in English (Latin letters) are fully supported.
 - **Base:** [ghcr.io/ublue-os/bluefin:stable](https://github.com/ublue-os/bluefin) (bootc).
@@ -30,7 +30,8 @@ Keyboard: you already have **English (US)** and **Arabic**; switch with the keyb
 After **Build disk images** runs in Actions, download from **Artifacts**:
 
 - **disk-qcow2** → download as ZIP → inside: **qcow2/disk.qcow2** (for VM).
-- **disk-anaconda-iso** → download as ZIP → inside: **bootiso/install.iso** (for installation).
+- **disk-anaconda-iso** → download as ZIP → inside: **bootiso/install.iso** (full Anaconda installer).
+- **disk-bootc-installer** → download as ZIP → inside: installer ISO based on Zaatar image (simpler installer).
 
 Full steps and paths: [docs/DOWNLOAD.md](docs/DOWNLOAD.md).
 

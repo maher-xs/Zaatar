@@ -1,4 +1,10 @@
 # anaconda-iso: root + /boot (types from workflow rootfs: btrfs).
+# ISO and installer branding so "Zaatar" appears in installer, boot menu, and ISO label.
+
+[customizations.iso]
+volume_id = "Zaatar"
+application_id = "Zaatar 1.0"
+publisher = "Zaatar"
 
 [[customizations.filesystem]]
 mountpoint = "/boot"
