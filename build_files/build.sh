@@ -19,16 +19,18 @@ rpm-ostree install \
     git
 
 # Bilingual locale: Arabic (Syria) and English (US). Both available so user can switch.
-echo "LANG=ar_SY.UTF-8" > /etc/locale.conf
-echo "LANGUAGE=ar_SY:ar:en_US:en" >> /etc/locale.conf
-echo "LC_ADDRESS=ar_SY.UTF-8" >> /etc/locale.conf
-echo "LC_MEASUREMENT=ar_SY.UTF-8" >> /etc/locale.conf
-echo "LC_MONETARY=ar_SY.UTF-8" >> /etc/locale.conf
-echo "LC_NAME=ar_SY.UTF-8" >> /etc/locale.conf
-echo "LC_NUMERIC=ar_SY.UTF-8" >> /etc/locale.conf
-echo "LC_PAPER=ar_SY.UTF-8" >> /etc/locale.conf
-echo "LC_TELEPHONE=ar_SY.UTF-8" >> /etc/locale.conf
-echo "LC_TIME=ar_SY.UTF-8" >> /etc/locale.conf
+{
+  echo "LANG=ar_SY.UTF-8"
+  echo "LANGUAGE=ar_SY:ar:en_US:en"
+  echo "LC_ADDRESS=ar_SY.UTF-8"
+  echo "LC_MEASUREMENT=ar_SY.UTF-8"
+  echo "LC_MONETARY=ar_SY.UTF-8"
+  echo "LC_NAME=ar_SY.UTF-8"
+  echo "LC_NUMERIC=ar_SY.UTF-8"
+  echo "LC_PAPER=ar_SY.UTF-8"
+  echo "LC_TELEPHONE=ar_SY.UTF-8"
+  echo "LC_TIME=ar_SY.UTF-8"
+} > /etc/locale.conf
 ln -sf /usr/share/zoneinfo/Asia/Damascus /etc/localtime
 
 # Input sources: English (US) and Arabic – user switches with Super+Space or from Region & Language
