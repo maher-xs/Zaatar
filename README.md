@@ -37,6 +37,7 @@ Full steps and paths: [docs/DOWNLOAD.md](docs/DOWNLOAD.md).
 ## Build and develop
 
 - **Local image build:** `just build` (requires [just](https://just.systems/) and Podman).
+- **Without just:** `./scripts/build.sh` or `podman build -t zaatar:latest .` (requires [Podman](https://podman.io/)).
 - **VM image and run:** `just build-qcow2` then `just run-vm-qcow2`.
 - **Project layout:** see [docs/PROJECT.md](docs/PROJECT.md) for structure and where to change things.
 
@@ -45,6 +46,7 @@ Full steps and paths: [docs/DOWNLOAD.md](docs/DOWNLOAD.md).
 1. **Cosign key** – Create a key pair, add the private key as GitHub secret `SIGNING_SECRET`, and keep `cosign.pub` in the repo. See [Universal Blue image template](https://github.com/ublue-os/image-template) for detailed steps.
 2. **Base image** – The Containerfile uses `ghcr.io/ublue-os/bluefin:stable`. Change the `FROM` line if you want another base.
 3. **Justfile** – The default image name is `Zaatar`; override with `IMAGE_NAME` if needed.
+4. **macOS:** Install Podman: `brew install podman`; install just: `brew install just`.
 
 ## Documentation
 
@@ -52,6 +54,7 @@ Full steps and paths: [docs/DOWNLOAD.md](docs/DOWNLOAD.md).
 - [Arabic README](README.ar.md)
 - [Change language/region](docs/LOCALE.md)
 - [GNOME extensions](docs/EXTENSIONS.md) – Open Bar, Blur my Shell, Dash to Dock, etc.
+- [Performance & app behavior (macOS-like)](docs/PERFORMANCE.md) – zram, power profile, apps stay in RAM
 
 ## Community
 

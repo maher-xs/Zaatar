@@ -1,4 +1,4 @@
-export image_name := env("IMAGE_NAME", "Zaatar") # output image name, usually same as repo name, change as needed
+export image_name := env("IMAGE_NAME", "zaatar") # output image name (lowercase for OCI), change as needed
 export default_tag := env("DEFAULT_TAG", "latest")
 export bib_image := env("BIB_IMAGE", "quay.io/centos-bootc/bootc-image-builder:latest")
 
@@ -13,7 +13,7 @@ default:
 # Check Just Syntax
 [group('Just')]
 check:
-    #!/usr/bin/bash
+    #!/usr/bin/env bash
     find . -type f -name "*.just" | while read -r file; do
     	echo "Checking syntax: $file"
     	just --unstable --fmt --check -f $file
@@ -24,7 +24,7 @@ check:
 # Fix Just Syntax
 [group('Just')]
 fix:
-    #!/usr/bin/bash
+    #!/usr/bin/env bash
     find . -type f -name "*.just" | while read -r file; do
     	echo "Checking syntax: $file"
     	just --unstable --fmt -f $file
@@ -35,7 +35,7 @@ fix:
 # Clean Repo
 [group('Utility')]
 clean:
-    #!/usr/bin/bash
+    #!/usr/bin/env bash
     set -eoux pipefail
     touch _build
     find *_build* -exec rm -rf {} \;
@@ -54,7 +54,7 @@ sudo-clean:
 [group('Utility')]
 [private]
 sudoif command *args:
-    #!/usr/bin/bash
+    #!/usr/bin/env bash
     function sudoif(){
         if [[ "${UID}" -eq 0 ]]; then
             "$@"
@@ -118,8 +118,14 @@ build $target_image=image_name $tag=default_tag:
 # 4. If the image is not found, pull it from the remote repository into reootful podman.
 
 _rootful_load_image $target_image=image_name $tag=default_tag:
-    #!/usr/bin/bash
+    #!/usr/bin/env bash
     set -eoux pipefail
+
+    # podman image scp is not supported on macOS (remote client)
+    if [[ "$(uname -s)" == "Darwin" ]]; then
+        echo "macOS: skipping rootful load (podman image scp not supported)."
+        exit 0
+    fi
 
     # Check if already running as root or under sudo
     if [[ -n "${SUDO_USER:-}" || "${UID}" -eq "0" ]]; then
@@ -223,7 +229,7 @@ rebuild-iso $target_image=("localhost/" + image_name) $tag=default_tag: && (_reb
 
 # Run a virtual machine with the specified image type and configuration
 _run-vm $target_image $tag $type $config:
-    #!/usr/bin/bash
+    #!/usr/bin/env bash
     set -eoux pipefail
 
     # Determine the image file based on the type

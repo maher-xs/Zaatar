@@ -45,6 +45,17 @@ Everything included in the image for a complete, ready-to-use system.
 | build-disk.yml | Auto after build, or PR/manual |
 | qcow2 + anaconda-iso | Both produced |
 
+## ✅ Performance (macOS-like)
+
+| Item | Status |
+|------|--------|
+| Apps stay in RAM when switching | ✓ (Linux default) |
+| zram (memory compression) | ✓ (Fedora default, max 16GB) |
+| Power profile: Performance | ✓ (zaatar-power-profile.service) |
+| Faster boot (no network wait) | ✓ (NetworkManager-wait-online override) |
+| Lighter animations | ✓ (enable-animations=false) |
+| Docs: [PERFORMANCE.md](PERFORMANCE.md) | Tuning, zram, power profile |
+
 ## ✅ Documentation
 
 | Doc | Purpose |

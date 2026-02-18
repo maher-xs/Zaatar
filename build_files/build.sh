@@ -45,10 +45,17 @@ region='ar_SY.UTF-8'
 EOF
 
 # Tahoe theme (macOS-like GNOME): dark + blue accent + libadwaita + wallpapers. Use HOME=/tmp so install.sh does not touch /root.
+# Workaround: gum (used by Tahoe install) crashes under QEMU/emulation – use a no-op wrapper.
+cat > /tmp/gum << 'GUMEOF'
+#!/bin/bash
+[[ "$1" == "spin" ]] && shift && while [[ $# -gt 0 ]]; do [[ "$1" == "--" ]] && { shift; exec "$@"; }; shift; done
+exit 0
+GUMEOF
+chmod +x /tmp/gum
 git clone --depth 1 https://github.com/kayozxo/GNOME-macOS-Tahoe /tmp/Tahoe
 cd /tmp/Tahoe
-HOME=/tmp ./install.sh -d --color blue -la
-HOME=/tmp ./install.sh -w
+PATH="/tmp:$PATH" HOME=/tmp ./install.sh -d --color blue -la
+PATH="/tmp:$PATH" HOME=/tmp ./install.sh -w
 cd /
 
 # Zaatar custom wallpaper: install to system backgrounds and set as default (PNG preferred over SVG)
@@ -101,9 +108,44 @@ show-trash=false
 apply-custom-theme=false
 EOF
 
+# Performance: lighter animations for snappier feel (toggle in Settings → Accessibility if needed)
+cat > /etc/dconf/db/local.d/05-zaatar-performance << 'EOF'
+[org/gnome/desktop/interface]
+enable-animations=false
+EOF
+
 # Allow Flatpaks to use host GTK config (theme)
 flatpak override --filesystem=xdg-config/gtk-3.0 2>/dev/null || true
 flatpak override --filesystem=xdg-config/gtk-4.0 2>/dev/null || true
+
+# Performance: zram larger (max 16GB), faster boot, power profile
+mkdir -p /etc/systemd/zram-generator.conf.d
+cat > /etc/systemd/zram-generator.conf.d/10-zaatar-performance.conf << 'EOF'
+[zram0]
+max-zram-size = 16384
+EOF
+mkdir -p /etc/systemd/system/NetworkManager-wait-online.service.d
+cat > /etc/systemd/system/NetworkManager-wait-online.service.d/zaatar-boot.conf << 'EOF'
+[Service]
+ExecStart=
+ExecStart=/bin/true
+EOF
+mkdir -p /etc/systemd/system
+cat > /etc/systemd/system/zaatar-power-profile.service << 'EOF'
+[Unit]
+Description=Zaatar default power profile (performance)
+After=tuned.service
+Wants=tuned.service
+ConditionPathExists=/usr/sbin/tuned-adm
+[Service]
+Type=oneshot
+ExecStart=-/usr/sbin/tuned-adm profile throughput-performance
+RemainAfterExit=yes
+[Install]
+WantedBy=graphical.target
+EOF
+mkdir -p /etc/systemd/system/graphical.target.wants
+ln -sf ../zaatar-power-profile.service /etc/systemd/system/graphical.target.wants/zaatar-power-profile.service
 
 dconf update
 
