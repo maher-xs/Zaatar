@@ -4,3 +4,6 @@ output
 _build-*/**
 /logo.png
 disk-*.zip
+*disk*.zip
+*.tar
+Containerfile.save

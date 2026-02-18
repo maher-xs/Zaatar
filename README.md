@@ -29,8 +29,15 @@ Keyboard: you already have **English (US)** and **Arabic**; switch with the keyb
 
 After **Build disk images** runs in Actions, download from **Artifacts**:
 
-- **disk-qcow2** → download as ZIP → inside: **qcow2/disk.qcow2** (for VM).
+- **disk-qcow2** → download as ZIP → inside: **qcow2/disk.qcow2** (ready-to-boot VM, **no installation**).
 - **disk-anaconda-iso** → download as ZIP → inside: **bootiso/install.iso** (full Anaconda installer).
+
+**For fast testing:** use **disk-qcow2** – it boots directly into Zaatar. No installer step.
+
+```bash
+unzip disk-qcow2.zip
+./scripts/run-qcow2.sh qcow2/disk.qcow2   # or: ./scripts/run-qcow2.sh disk-qcow2.zip
+```
 
 Full steps and paths: [docs/DOWNLOAD.md](docs/DOWNLOAD.md).
 
@@ -45,16 +52,17 @@ Full steps and paths: [docs/DOWNLOAD.md](docs/DOWNLOAD.md).
 
 1. **Cosign key** – Create a key pair, add the private key as GitHub secret `SIGNING_SECRET`, and keep `cosign.pub` in the repo. See [Universal Blue image template](https://github.com/ublue-os/image-template) for detailed steps.
 2. **Base image** – The Containerfile uses `ghcr.io/ublue-os/bluefin:stable`. Change the `FROM` line if you want another base.
-3. **Justfile** – The default image name is `Zaatar`; override with `IMAGE_NAME` if needed.
-4. **macOS:** Install Podman: `brew install podman`; install just: `brew install just`.
+3. **Justfile** – The default image name is `zaatar` (lowercase for OCI); override with `IMAGE_NAME` if needed.
+4. **macOS:** Install Podman: `brew install podman`; install just: `brew install just`. For `just build-qcow2`, you need rootful Podman and the rootful connection as default: `podman machine set --rootful` then `podman machine stop; podman machine start`, then `podman system connection default podman-machine-default-root` (or the rootful connection name from `podman system connection list`).
 
 ## Documentation
 
+- [docs/](docs/README.md) – Full documentation index
 - [System checklist](docs/CHECKLIST.md) – everything included, ready to use
 - [Arabic README](README.ar.md)
 - [Change language/region](docs/LOCALE.md)
-- [GNOME extensions](docs/EXTENSIONS.md) – Open Bar, Blur my Shell, Dash to Dock, etc.
-- [Performance & app behavior (macOS-like)](docs/PERFORMANCE.md) – zram, power profile, apps stay in RAM
+- [GNOME extensions](docs/EXTENSIONS.md) – Dash to Dock, Blur my Shell, etc.
+- [Performance & app behavior](docs/PERFORMANCE.md) – zram, power profile, boot speed
 
 ## Community
 

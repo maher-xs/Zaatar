@@ -12,14 +12,16 @@
 
 | الاسم الذي يظهر | الصيغة التي تحمّلها | المحتوى بعد فك الضغط |
 |-----------------|----------------------|----------------------|
-| **disk-qcow2**  | `disk-qcow2.zip`     | مجلد فيه ملف **qcow2/disk.qcow2** (صورة جهاز افتراضي) |
+| **disk-qcow2**  | `disk-qcow2.zip`     | مجلد فيه ملف **qcow2/disk.qcow2** (صورة جاهزة – **بدون تثبيت**) |
 | **disk-anaconda-iso** | `disk-anaconda-iso.zip` | مجلد فيه ملف **bootiso/install.iso** (قرص تثبيت Anaconda كامل) |
+
+**للاختبار السريع:** استخدم **disk-qcow2** – يقلع مباشرة إلى زعتر بدون شاشة التثبيت.
 
 ---
 
 ## الصيغة الكاملة للملفات بعد التحميل
 
-### 1) صورة القرص للجهاز الافتراضي (QCOW2)
+### 1) صورة القرص للجهاز الافتراضي (QCOW2) – بدون تثبيت
 
 - **ما تحمّله من GitHub:** ملف واحد باسم **disk-qcow2** → يحمَّل كـ **disk-qcow2.zip**.
 - **بعد فك الضغط (unzip):**
@@ -103,14 +105,17 @@ GitHub يضغط كل **Artifact** تلقائياً ويحمّلك إياه كـ 
    ```
    أو إذا عندك **Virt-Manager**: New VM → Import existing disk → اختر **qcow2/disk.qcow2**.
 
-   **على macOS (Apple Silicon):** الصورة x86_64 فتُشغّل بمحاكاة برمجية (TCG). استخدم UEFI عبر **pflash** (حزمة Homebrew لا تضم ملف vars لـ x86_64 فاستخدم code فقط):
+   **على macOS:** من داخل مستودع زعتر:
    ```bash
-   QEMU_SHARE="/opt/homebrew/Cellar/qemu/10.2.1/share/qemu"
-   qemu-system-x86_64 -accel tcg -m 4096 -smp 2 \
-     -drive if=pflash,format=raw,readonly=on,file="$QEMU_SHARE/edk2-x86_64-code.fd" \
-     -drive file=qcow2/disk.qcow2,format=qcow2
+   ./scripts/run-qcow2.sh disk-qcow2.zip
+   # أو بعد فك الضغط:
+   ./scripts/run-qcow2.sh qcow2/disk.qcow2
    ```
-   إن إصدار QEMU عندك غير 10.2.1 غيّر المسار: `ls /opt/homebrew/Cellar/qemu/`. أو استخدم **UTM** وافتح الملف من الواجهة.
+   أو يدوياً (TCG، الصورة x86_64):
+   ```bash
+   qemu-system-x86_64 -accel tcg -m 4G -smp 2 \
+     -drive file=qcow2/disk.qcow2,format=qcow2,if=virtio -nic user
+   ```
 
    **على ويندوز:** استخدم VirtualBox أو VMware: New VM → استخدم القرص الموجود → اختر **qcow2/disk.qcow2**.
 

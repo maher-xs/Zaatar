@@ -182,4 +182,16 @@ echo 'Welcome to Zaatar 1.0 – Arabic/English desktop.' > /etc/motd
 # 5) Single place that always says what this system is (for scripts/docs)
 echo 'Zaatar 1.0 - Arabic/English desktop.' > /etc/zaatar-release 2>/dev/null || true
 
+# 6) GRUB boot menu – show "Zaatar 1.0" instead of "Zaatar 42"
+# GRUB_DISTRIBUTOR is used by grub2-mkconfig for menuentry titles; bootc-image-builder may also
+# read /etc/system-release. Both are set so the boot menu displays "Zaatar 1.0" for the user.
+echo 'Zaatar 1.0' > /etc/system-release 2>/dev/null || true
+if [ -f /etc/default/grub ]; then
+  if grep -q '^GRUB_DISTRIBUTOR=' /etc/default/grub; then
+    sed -i 's/^GRUB_DISTRIBUTOR=.*/GRUB_DISTRIBUTOR="Zaatar 1.0"/' /etc/default/grub
+  else
+    echo 'GRUB_DISTRIBUTOR="Zaatar 1.0"' >> /etc/default/grub
+  fi
+fi
+
 ostree container commit

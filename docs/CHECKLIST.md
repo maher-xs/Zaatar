@@ -62,12 +62,16 @@ Everything included in the image for a complete, ready-to-use system.
 |-----|---------|
 | README.md | Overview, switch, download |
 | README.ar.md | Arabic version |
-| docs/DOWNLOAD.md | Full download steps |
-| docs/LOCALE.md | Change language/region |
-| docs/EXTENSIONS.md | GNOME extensions |
-| docs/PROJECT.md | Project structure |
 | CONTRIBUTING.md | How to contribute |
 | SECURITY.md | Security policy |
+| docs/README.md | Documentation index |
+| docs/CHECKLIST.md | This file – system readiness |
+| docs/DOWNLOAD.md | Full download steps |
+| docs/EXTENSIONS.md | GNOME extensions |
+| docs/LOCALE.md | Change language/region |
+| docs/PERFORMANCE.md | zram, power profile, boot speed |
+| docs/PROJECT.md | Project structure |
+| docs/ROADMAP.md | Development plan |
 
 ## One-time setup (before first push)
 

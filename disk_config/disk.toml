@@ -1,4 +1,5 @@
-# Root and /boot required; types come from workflow rootfs: btrfs (root) and builder default for /boot.
+# QCOW2/raw disk: root + /boot required.
+# Types come from workflow rootfs: btrfs (root) and builder default for /boot.
 [[customizations.filesystem]]
 mountpoint = "/boot"
 minsize = "512 MiB"

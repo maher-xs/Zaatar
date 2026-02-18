@@ -1,4 +1,4 @@
-# Zaatar assets
+# Zaatar Assets
 
 Custom wallpapers and branding assets.
 
@@ -6,8 +6,10 @@ Custom wallpapers and branding assets.
 
 Place custom wallpapers in `wallpapers/`:
 
-- **zaatar-wallpaper.png** – Primary wallpaper (macOS Big Sur–style fluidic, 4096×2304). Used by default.
-- **zaatar-wallpaper-ultrawide.png** – Ultrawide variant (6400×2880). Available in Settings → Appearance.
-- **zaatar-wallpaper.svg** – Fallback SVG (gradient + "Zaatar" text) if no PNG exists.
+| File | Purpose |
+|------|---------|
+| `zaatar-wallpaper.png` | Primary wallpaper (macOS Big Sur–style, 4096×2304). Used by default. |
+| `zaatar-wallpaper-ultrawide.png` | Ultrawide variant (6400×2880). Available in Settings → Appearance. |
+| `zaatar-wallpaper.svg` | Fallback SVG (gradient + "Zaatar" text) if no PNG exists. |
 
 The build uses PNG first, then SVG. Both PNG files are installed; user can switch in Settings.

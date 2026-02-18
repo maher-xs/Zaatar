@@ -171,6 +171,10 @@ _build-bib $target_image $tag $type $config: (_rootful_load_image target_image t
     args="--type ${type} "
     args+="--use-librepo=True "
     args+="--rootfs=btrfs"
+    # On macOS (ARM), image is x86_64 – must specify target arch
+    if [[ "$(uname -s)" == "Darwin" ]]; then
+        args+="--target-arch amd64 "
+    fi
 
     BUILDTMP=$(mktemp -p "${PWD}" -d -t _build-bib.XXXXXXXXXX)
 
@@ -204,8 +208,17 @@ _build-bib $target_image $tag $type $config: (_rootful_load_image target_image t
 _rebuild-bib $target_image $tag $type $config: (build target_image tag) && (_build-bib target_image tag type config)
 
 # Build a QCOW2 virtual machine image
+# On macOS: skip (podman image scp not supported; use GitHub Actions for disk images)
 [group('Build Virtual Machine Image')]
-build-qcow2 $target_image=("localhost/" + image_name) $tag=default_tag: && (_build-bib target_image tag "qcow2" "disk_config/disk.toml")
+build-qcow2 $target_image=("localhost/" + image_name) $tag=default_tag:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if [[ "$(uname -s)" == "Darwin" ]]; then
+        echo "macOS: skipping qcow2 build (podman image scp not supported). Use GitHub Actions → Build disk images → Artifacts."
+        exit 0
+    fi
+    just _rootful_load_image {{target_image}} {{tag}}
+    just _build-bib {{target_image}} {{tag}} "qcow2" "disk_config/disk.toml"
 
 # Build a RAW virtual machine image
 [group('Build Virtual Machine Image')]

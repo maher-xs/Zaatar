@@ -30,6 +30,6 @@ sudo bootc switch ghcr.io/maher-xs/zaatar:latest
 
 ## توثيق إضافي
 
-- [تغيير اللغة والمنطقة](docs/LOCALE.md)
 - [دليل التحميل والتشغيل](docs/DOWNLOAD.md)
+- [تغيير اللغة والمنطقة](docs/LOCALE.md)
 - [النسخة الإنجليزية](README.md)

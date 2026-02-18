@@ -14,13 +14,23 @@ Thank you for your interest in contributing to Zaatar.
 ```bash
 # Build container image
 just build
+# Or without just: ./scripts/build.sh
 
-# Build QCOW2 disk image (requires image built first)
+# Build QCOW2 disk image (Linux only; requires image built first)
 just build-qcow2
 
-# Run VM with QCOW2
+# Run VM with QCOW2 (Linux)
 just run-vm-qcow2
 ```
+
+### Testing on macOS
+
+macOS cannot build QCOW2 locally (use GitHub Actions). To test:
+
+1. Download **disk-qcow2** from Actions → Artifacts.
+2. Run: `./scripts/run-qcow2.sh disk-qcow2.zip` (or path to `qcow2/disk.qcow2`).
+
+This boots Zaatar directly without the installer. For the full installer: `./scripts/run-iso.sh disk-anaconda-iso.zip`.
 
 ### Project layout
 
