@@ -31,7 +31,6 @@ After **Build disk images** runs in Actions, download from **Artifacts**:
 
 - **disk-qcow2** → download as ZIP → inside: **qcow2/disk.qcow2** (for VM).
 - **disk-anaconda-iso** → download as ZIP → inside: **bootiso/install.iso** (full Anaconda installer).
-- **disk-bootc-installer** → download as ZIP → inside: installer ISO based on Zaatar image (simpler installer).
 
 Full steps and paths: [docs/DOWNLOAD.md](docs/DOWNLOAD.md).
 

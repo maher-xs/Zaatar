@@ -8,13 +8,12 @@
 4. اضغط على آخر تشغيل ناجح (علامة خضراء).
 5. انزل إلى قسم **Artifacts** في أسفل الصفحة.
 
-ستجد artifacts حسب نجاح البناء:
+ستجد artifact واحد أو اثنين حسب نجاح البناء:
 
 | الاسم الذي يظهر | الصيغة التي تحمّلها | المحتوى بعد فك الضغط |
 |-----------------|----------------------|----------------------|
 | **disk-qcow2**  | `disk-qcow2.zip`     | مجلد فيه ملف **qcow2/disk.qcow2** (صورة جهاز افتراضي) |
 | **disk-anaconda-iso** | `disk-anaconda-iso.zip` | مجلد فيه ملف **bootiso/install.iso** (قرص تثبيت Anaconda كامل) |
-| **disk-bootc-installer** | `disk-bootc-installer.zip` | مجلد فيه ملف ISO (مثبّت مبني على صورة زعتر، واجهة أبسط) |
 
 ---
 
@@ -72,7 +71,6 @@ unzip disk-anaconda-iso.zip
 |----------------|---------------------|-----------------------------------|
 | جهاز افتراضي  | **disk-qcow2**      | **qcow2/disk.qcow2**              |
 | تثبيت Anaconda (واجهة كاملة) | **disk-anaconda-iso** | **bootiso/install.iso** |
-| تثبيت bootc (مبني على زعتر) | **disk-bootc-installer** | ملف ISO داخل المجلد |
 
 كل شيء يأتيك كـ **ZIP** من GitHub؛ الملف الفعلي الذي تستخدمه (.qcow2 أو .iso) يكون **داخل** الـ ZIP في المسارات أعلاه.
 
@@ -145,20 +143,9 @@ GitHub يضغط كل **Artifact** تلقائياً ويحمّلك إياه كـ 
 
 ---
 
-### اختبار 3: مثبّت bootc (مبني على صورة زعتر)
-
-هذا مثبّت أبسط مبني على صورة زعتر نفسها (بدل Anaconda). يقلع من ISO ثم يثبّت زعتر على القرص.
-
-1. **حمّل** من Artifacts: **disk-bootc-installer** (يحمّل كـ `disk-bootc-installer.zip`).
-2. **فك الضغط** وابحث عن ملف `.iso` داخل المجلد.
-3. استخدمه مثل **bootiso/install.iso** أعلاه: QEMU/VirtualBox أو فلاشة لجهاز حقيقي.
-
----
-
 ## ملخص: من ZIP إلى التشغيل
 
 | النظام           | تحميل من GitHub | بعد فك ZIP        | كيف تشغّله |
 |------------------|-----------------|-------------------|------------|
 | جهاز جاهز (VM)  | disk-qcow2      | qcow2/disk.qcow2  | QEMU أو VirtualBox أو Virt-Manager |
 | تثبيت Anaconda  | disk-anaconda-iso | bootiso/install.iso | QEMU/VirtualBox كـ CD، أو فلاشة لجهاز حقيقي |
-| تثبيت bootc     | disk-bootc-installer | ملف ISO داخل المجلد | نفس التثبيت (ISO) – ابحث عن .iso |

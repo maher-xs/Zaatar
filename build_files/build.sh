@@ -39,11 +39,12 @@ dconf update
 # Every place that can show OS name or system info shows Zaatar (Latin)
 
 # 1) os-release – main OS identity (Settings > About, installer, scripts, GDM)
-# Override all user-visible fields; remove Bluefin/Universal Blue from ID_LIKE, VARIANT, etc.
-sed -i 's/^ID=.*/ID=zaatar/' /etc/os-release
+# ID and VERSION_ID must stay fedora/42 so bootc-image-builder finds fedora-42 def (anaconda-iso).
+# Override NAME/PRETTY_NAME to Zaatar – that's what users see; ID is internal for build tools.
+sed -i 's/^ID=.*/ID=fedora/' /etc/os-release
+sed -i 's/^VERSION_ID=.*/VERSION_ID="42"/' /etc/os-release
 sed -i 's/^NAME=.*/NAME="Zaatar"/' /etc/os-release
 sed -i 's/^PRETTY_NAME=.*/PRETTY_NAME="Zaatar 1.0"/' /etc/os-release
-sed -i 's/^VERSION_ID=.*/VERSION_ID="1.0"/' /etc/os-release
 sed -i 's/^VARIANT_ID=.*/VARIANT_ID=zaatar/' /etc/os-release 2>/dev/null || true
 sed -i 's/^ID_LIKE=.*/ID_LIKE="fedora"/' /etc/os-release 2>/dev/null || true
 sed -i 's/^VARIANT=.*/VARIANT="zaatar"/' /etc/os-release 2>/dev/null || true

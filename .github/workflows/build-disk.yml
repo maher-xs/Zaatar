@@ -31,7 +31,7 @@ env:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -44,8 +44,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # qcow2: ready-to-run VM. anaconda-iso: full Anaconda GUI installer. bootc-installer: simpler installer based on our image (Zaatar branding).
-        disk-type: ["qcow2", "anaconda-iso", "bootc-installer"]
+        # qcow2: ready-to-run VM. anaconda-iso: full Anaconda GUI installer.
+        # bootc-installer removed: requires "installer payload bootc ref" config not yet documented.
+        disk-type: ["qcow2", "anaconda-iso"]
     permissions:
       contents: read
       packages: read
