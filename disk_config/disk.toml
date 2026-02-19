@@ -1,5 +1,5 @@
 # QCOW2/raw disk: root + /boot required.
-# Types come from workflow rootfs: btrfs (root) and builder default for /boot.
+# Demo user comes from container (build.sh). Log in as demo/zaatar.
 [[customizations.filesystem]]
 mountpoint = "/boot"
 minsize = "512 MiB"

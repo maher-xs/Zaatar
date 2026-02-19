@@ -3,7 +3,7 @@
 # Arabic + English – user can switch between both in Settings > Region & Language.
 set -eoux pipefail
 
-# Language packs, fonts, input, spellcheck, icons: Arabic + English (user switches in Settings > Region & Language)
+# Essential packages only – language, fonts, input, spellcheck, icons. Apps from Flathub.
 rpm-ostree install \
     langpacks-ar langpacks-en \
     google-noto-sans-arabic-fonts \
@@ -15,8 +15,14 @@ rpm-ostree install \
     papirus-icon-theme \
     gnome-shell-extension-dash-to-dock \
     gnome-shell-extension-blur-my-shell \
-    gnome-extensions-app \
-    git
+    gnome-extensions-app
+
+# Flathub – default source for apps (Firefox, etc. from base; user installs more from Software)
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo 2>/dev/null || true
+
+# Demo user for testing – log in as demo/zaatar, no account creation needed
+useradd -m -G wheel -s /bin/bash demo 2>/dev/null || true
+echo 'demo:zaatar' | chpasswd 2>/dev/null || true
 
 # Bilingual locale: Arabic (Syria) and English (US). Both available so user can switch.
 {

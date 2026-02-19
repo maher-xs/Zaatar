@@ -14,6 +14,10 @@ sudo bootc switch ghcr.io/maher-xs/zaatar:latest
 
 Then reboot. (If you use a fork, replace `maher-xs` with your GitHub username.)
 
+## Demo user (testing)
+
+For quick testing (VM, disk image): log in as **demo** / **zaatar**. No account creation needed. Install more apps from **Software** (Flathub).
+
 ## Switching between Arabic and English
 
 The system is bilingual. To change the interface language:

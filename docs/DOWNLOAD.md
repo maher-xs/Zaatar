@@ -111,15 +111,15 @@ GitHub يضغط كل **Artifact** تلقائياً ويحمّلك إياه كـ 
    # أو بعد فك الضغط:
    ./scripts/run-qcow2.sh qcow2/disk.qcow2
    ```
-   أو يدوياً (TCG، الصورة x86_64):
+   أو يدوياً (TCG، الصورة x86_64). لسلاسة أكثر: `QEMU_RAM=8G QEMU_CPUS=4 ./scripts/run-qcow2.sh ...`
    ```bash
-   qemu-system-x86_64 -accel tcg -m 4G -smp 2 \
+   qemu-system-x86_64 -accel tcg -m 8G -smp 4 \
      -drive file=qcow2/disk.qcow2,format=qcow2,if=virtio -nic user
    ```
 
    **على ويندوز:** استخدم VirtualBox أو VMware: New VM → استخدم القرص الموجود → اختر **qcow2/disk.qcow2**.
 
-بعد التشغيل يقلع زعتر مثل جهاز حقيقي وتقدر تختبر الواجهة واللغة.
+بعد التشغيل يقلع **زعتر مباشرة** (ليس النظام الأساس للتثبيت). سجّل دخول: **demo** / **zaatar**.
 
 ---
 

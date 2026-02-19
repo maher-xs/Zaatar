@@ -16,8 +16,12 @@ minsize = "10 GiB"
 
 [customizations.installer.kickstart]
 contents = """
+# Install Zaatar (our system) – not the installer base
 %post
 bootc switch --mutate-in-place --transport registry ghcr.io/maher-xs/zaatar:latest
+# Demo user for testing (same as container)
+useradd -m -G wheel -s /bin/bash demo 2>/dev/null || true
+echo 'demo:zaatar' | chpasswd 2>/dev/null || true
 %end
 """
 

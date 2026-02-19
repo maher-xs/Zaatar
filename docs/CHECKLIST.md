@@ -37,6 +37,19 @@ Everything included in the image for a complete, ready-to-use system.
 | Console / SSH | Zaatar 1.0 |
 | hostnamectl | Zaatar |
 
+## ✅ Demo user (testing)
+
+| User | Password | Purpose |
+|------|----------|---------|
+| demo | zaatar | Quick testing – no account creation |
+
+## ✅ Apps
+
+| Source | Use |
+|--------|-----|
+| Base image | Firefox, GNOME apps |
+| Flathub | Install more from **Software** |
+
 ## ✅ Build & CI
 
 | Flow | Status |
