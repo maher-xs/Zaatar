@@ -15,10 +15,10 @@
 
 | الخيار | التأثير | الملاحظات |
 |--------|---------|-----------|
-| **قاعدة Silverblue بدل Bluefin** | قد يوفر 500MB–1GB | Bluefin يضيف Brew و تطبيقات إضافية. Silverblue أخف لكن يفقد ميزات Bluefin. |
+| ~~قاعدة Silverblue بدل Bluefin~~ | تم التطبيق | |
 | **WhiteSur من COPR** | يوفر حزم البناء | حزمة WhiteSur-gtk-theme في COPR قد تكون قديمة. |
 | **إزالة إضافات GNOME غير الأساسية** | ~5 MB | Magic Lamp، Logo Menu — المستخدم يثبّتها يدوياً. |
 
-## القاعدة (Bluefin)
+## القاعدة
 
-القاعدة نفسها ~3 GB. لتقليل جذري، يُنصح بتجربة `ghcr.io/ublue-os/aurora` (Silverblue) أو بناء من `quay.io/fedora/fedora-bootc` — يتطلب تعديلات أكبر.
+**القاعدة:** Fedora Silverblue الرسمي (`ghcr.io/fedora-ostree-desktops/silverblue:42`) — بدون Universal Blue كوسيط. إذا فشل سحب الصورة من ghcr.io، جرّب `quay.io/fedora-ostree-desktops/silverblue:42` بدلاً.

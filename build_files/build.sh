@@ -26,6 +26,14 @@ rpm-ostree install \
 # Flathub – default source (user installs apps from Software)
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo 2>/dev/null || true
 
+# RPM Fusion + codecs (مثل Bluefin — تشغيل وسائط)
+FEDORA_VER=$(rpm -E %fedora 2>/dev/null || echo "42")
+rpm-ostree install \
+    "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-${FEDORA_VER}.noarch.rpm" \
+    "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-${FEDORA_VER}.noarch.rpm" \
+    2>/dev/null || true
+rpm-ostree install gstreamer1-plugin-libav gstreamer1-plugins-ugly 2>/dev/null || true
+
 # Bilingual locale: Arabic (Syria) and English (US). Both available so user can switch.
 {
   echo "LANG=ar_SY.UTF-8"

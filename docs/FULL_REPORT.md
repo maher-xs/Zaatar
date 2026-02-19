@@ -8,11 +8,11 @@
 
 ## 1. نظرة عامة
 
-**زعتر (Zaatar)** نظام تشغيل سطح مكتب ثنائي اللغة (عربي/إنجليزي) مبني على [Universal Blue Bluefin](https://github.com/ublue-os/bluefin) بتقنية bootc و ostree. النظام مصمّم لتجربة مطابقة لـ macOS مع دعم كامل للعربية.
+**زعتر (Zaatar)** نظام تشغيل سطح مكتب ثنائي اللغة (عربي/إنجليزي) مبني على [Fedora Silverblue](https://docs.fedoraproject.org/en-US/fedora-silverblue/) الرسمي بتقنية bootc و ostree. النظام مصمّم لتجربة مطابقة لـ macOS مع دعم كامل للعربية.
 
 | البند | الوصف |
 |-------|--------|
-| **القاعدة** | ghcr.io/ublue-os/bluefin:stable |
+| **القاعدة** | ghcr.io/fedora-ostree-desktops/silverblue:42 (Fedora Silverblue الرسمي) |
 | **التقنية** | bootc (ostree containers) |
 | **سطح المكتب** | GNOME مع ثيم WhiteSur (مطابق لـ macOS) |
 | **اللغات** | العربية (ar_SY) والإنجليزية (en_US) |
@@ -86,6 +86,8 @@ Zaatar/
 | gnome-shell-extension-blur-my-shell | ضبابية للوحة |
 | gnome-shell-extension-user-theme | ثيم GNOME Shell |
 | sushi | Quick Look (Space في Nautilus) |
+| rpmfusion-free, rpmfusion-nonfree | مستودعات Codecs |
+| gstreamer1-plugin-libav, gstreamer1-plugins-ugly | تشغيل وسائط (مثل Bluefin) |
 | irqbalance | توزيع المقاطعات على CPU |
 | earlyoom | تمنع تجميد النظام عند امتلاء الذاكرة |
 
@@ -296,7 +298,7 @@ ALL ALL=(ALL) NOPASSWD: /usr/libexec/zaatar/update-os-name-by-locale.sh
 ## 11. Containerfile
 
 ```dockerfile
-FROM ghcr.io/ublue-os/bluefin:stable
+FROM ghcr.io/ublue-os/silverblue-main:42
 
 COPY build_files/build.sh /tmp/build.sh
 COPY assets/ /tmp/zaatar-assets/

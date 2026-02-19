@@ -10,11 +10,11 @@
 
 ## 1. نظرة عامة
 
-**زعتر (Zaatar)** نظام تشغيل سطح مكتب عربي/إنجليزي مبني على [Universal Blue Bluefin](https://github.com/ublue-os/bluefin) بتقنية bootc. النظام معرّف باسم **Zaatar** في كل مكان: المثبّت، شاشة تسجيل الدخول، الإعدادات، وحتى GRUB.
+**زعتر (Zaatar)** نظام تشغيل سطح مكتب عربي/إنجليزي مبني على [Fedora Silverblue](https://docs.fedoraproject.org/en-US/fedora-silverblue/) الرسمي بتقنية bootc. النظام معرّف باسم **Zaatar** في كل مكان: المثبّت، شاشة تسجيل الدخول، الإعدادات، وحتى GRUB.
 
 | البند | الوصف |
 |-------|--------|
-| **القاعدة** | ghcr.io/ublue-os/bluefin:stable |
+| **القاعدة** | ghcr.io/fedora-ostree-desktops/silverblue:42 |
 | **التقنية** | bootc (ostree containers) |
 | **سطح المكتب** | GNOME مع ثيم WhiteSur (مطابق لـ macOS) |
 | **اللغات** | العربية (ar_SY) والإنجليزية (en_US) |
