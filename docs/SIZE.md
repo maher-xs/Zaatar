@@ -1,6 +1,6 @@
 # تقليل حجم صورة زعتر
 
-الصورة الحالية ~3.9 GB. معظم الحجم من القاعدة (Bluefin) نفسها.
+الصورة الحالية ~3.9 GB. معظم الحجم من القاعدة (Silverblue) نفسها.
 
 ## ما تم تطبيقه
 
@@ -15,10 +15,9 @@
 
 | الخيار | التأثير | الملاحظات |
 |--------|---------|-----------|
-| ~~قاعدة Silverblue بدل Bluefin~~ | تم التطبيق | |
 | **WhiteSur من COPR** | يوفر حزم البناء | حزمة WhiteSur-gtk-theme في COPR قد تكون قديمة. |
 | **إزالة إضافات GNOME غير الأساسية** | ~5 MB | Magic Lamp، Logo Menu — المستخدم يثبّتها يدوياً. |
 
 ## القاعدة
 
-**القاعدة:** Fedora Silverblue الرسمي (`ghcr.io/fedora-ostree-desktops/silverblue:42`) — بدون Universal Blue كوسيط. إذا فشل سحب الصورة من ghcr.io، جرّب `quay.io/fedora-ostree-desktops/silverblue:42` بدلاً.
+**القاعدة:** `ghcr.io/ublue-os/silverblue:stable` (Universal Blue Silverblue).

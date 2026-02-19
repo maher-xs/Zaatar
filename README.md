@@ -1,9 +1,9 @@
 # Zaatar (زعتر)
 
-**Zaatar** is an Arabic/English desktop OS image based on [Fedora Silverblue](https://docs.fedoraproject.org/en-US/fedora-silverblue/). The system is branded as **Zaatar** (in Latin script) everywhere: installer, first boot, login screen, and OS name. It ships with Arabic and English language support, Syrian locale and timezone (Damascus), Noto Arabic fonts, WhiteSur theme (macOS-like GTK + GNOME Shell), WhiteSur icons and cursors, custom Zaatar wallpaper, Search Light (Spotlight-like, Super+Space), Dash2Dock Animated, and Quick Look (Sushi).
+**Zaatar** is an Arabic/English desktop OS image based on [Universal Blue Silverblue](https://github.com/ublue-os/main). The system is branded as **Zaatar** (in Latin script) everywhere: installer, first boot, login screen, and OS name. It ships with Arabic and English language support, Syrian locale and timezone (Damascus), Noto Arabic fonts, WhiteSur theme (macOS-like GTK + GNOME Shell), WhiteSur icons and cursors, custom Zaatar wallpaper, Search Light (Spotlight-like, Super+Space), Dash2Dock Animated, and Quick Look (Sushi).
 
 - **Languages:** Arabic (ar_SY) and English (en_US). Both are installed; you can switch from **Settings → Region & Language** (add English or Arabic and choose the display language). Account names in English (Latin letters) are fully supported.
-- **Base:** [ghcr.io/fedora-ostree-desktops/silverblue:42](https://github.com/fedora-ostree-desktops) (bootc).
+- **Base:** [ghcr.io/ublue-os/silverblue:stable](https://github.com/ublue-os/main) (bootc).
 - **Build:** Single-stage Containerfile + `build_files/build.sh`; CI builds and signs the image and can produce disk/ISO images.
 
 ## Switch to Zaatar (from a bootc system)
@@ -51,7 +51,7 @@ Full steps and paths: [docs/DOWNLOAD.md](docs/DOWNLOAD.md).
 ## Setup (one-time)
 
 1. **Cosign key** – Create a key pair, add the private key as GitHub secret `SIGNING_SECRET`, and keep `cosign.pub` in the repo. See [Universal Blue image template](https://github.com/ublue-os/image-template) for detailed steps.
-2. **Base image** – The Containerfile uses `ghcr.io/fedora-ostree-desktops/silverblue:42`. Change the `FROM` line if you want another base.
+2. **Base image** – The Containerfile uses `ghcr.io/ublue-os/silverblue:stable`. Change the `FROM` line if you want another base.
 3. **Justfile** – The default image name is `zaatar` (lowercase for OCI); override with `IMAGE_NAME` if needed.
 4. **macOS:** Install Podman: `brew install podman`; install just: `brew install just`. For `just build-qcow2`, you need rootful Podman and the rootful connection as default: `podman machine set --rootful` then `podman machine stop; podman machine start`, then `podman system connection default podman-machine-default-root` (or the rootful connection name from `podman system connection list`).
 

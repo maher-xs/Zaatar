@@ -37,7 +37,7 @@ Zaatar/
 ├── .dockerignore
 ├── .editorconfig            # Editor consistency (indent, charset)
 ├── .gitignore
-├── Containerfile            # Single-stage: FROM fedora-ostree-desktops/silverblue, run build.sh
+├── Containerfile            # Single-stage: FROM ublue-os/silverblue, run build.sh
 ├── CONTRIBUTING.md          # How to contribute
 ├── Justfile                 # Local build commands (just build, just build-qcow2, etc.)
 ├── LICENSE

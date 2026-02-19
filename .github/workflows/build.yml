@@ -18,7 +18,7 @@ on:
   workflow_dispatch:
 
 env:
-  IMAGE_DESC: "Zaatar – Arabic/English desktop OS based on Universal Blue"
+  IMAGE_DESC: "Zaatar – Arabic/English desktop OS based on Universal Blue Silverblue"
   IMAGE_KEYWORDS: "bootc,ublue,universal-blue,arabic,arabic-locale,zaatar"
   # Zaatar logo for Artifact Hub / GHCR. Add logo.png (e.g. 200x200) to repo root to use it.
   IMAGE_LOGO_URL: "https://raw.githubusercontent.com/${{ github.repository_owner }}/${{ github.event.repository.name }}/main/logo.png"

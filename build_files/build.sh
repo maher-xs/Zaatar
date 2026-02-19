@@ -3,6 +3,9 @@
 # Arabic + English – user can switch between both in Settings > Region & Language.
 set -eoux pipefail
 
+# تفعيل Flathub (Silverblue لا يفعّله تلقائياً)
+flatpak remote-add --if-not-exists --system flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
 # Essential packages – language, fonts, input, spellcheck. WhiteSur from GitHub. sushi = Quick Look.
 # user-theme: required for WhiteSur GNOME Shell theme. sassc: for WhiteSur GTK build.
 rpm-ostree install \
@@ -23,10 +26,7 @@ rpm-ostree install \
     irqbalance \
     earlyoom
 
-# Flathub – default source (user installs apps from Software)
-flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo 2>/dev/null || true
-
-# RPM Fusion + codecs (مثل Bluefin — تشغيل وسائط)
+# RPM Fusion + codecs (تشغيل وسائط)
 FEDORA_VER=$(rpm -E %fedora 2>/dev/null || echo "42")
 rpm-ostree install \
     "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-${FEDORA_VER}.noarch.rpm" \

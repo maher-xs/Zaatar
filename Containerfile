@@ -1,5 +1,5 @@
-# Fedora Silverblue الرسمي (بدون Universal Blue كوسيط)
-FROM ghcr.io/fedora-ostree-desktops/silverblue:42
+# Universal Blue Silverblue
+FROM ghcr.io/ublue-os/silverblue:stable
 
 COPY build_files/build.sh /tmp/build.sh
 COPY assets/ /tmp/zaatar-assets/

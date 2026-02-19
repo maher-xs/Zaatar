@@ -8,11 +8,11 @@
 
 ## 1. نظرة عامة
 
-**زعتر (Zaatar)** نظام تشغيل سطح مكتب ثنائي اللغة (عربي/إنجليزي) مبني على [Fedora Silverblue](https://docs.fedoraproject.org/en-US/fedora-silverblue/) الرسمي بتقنية bootc و ostree. النظام مصمّم لتجربة مطابقة لـ macOS مع دعم كامل للعربية.
+**زعتر (Zaatar)** نظام تشغيل سطح مكتب ثنائي اللغة (عربي/إنجليزي) مبني على [Universal Blue Silverblue](https://github.com/ublue-os/main) بتقنية bootc و ostree. النظام مصمّم لتجربة مطابقة لـ macOS مع دعم كامل للعربية.
 
 | البند | الوصف |
 |-------|--------|
-| **القاعدة** | ghcr.io/fedora-ostree-desktops/silverblue:42 (Fedora Silverblue الرسمي) |
+| **القاعدة** | ghcr.io/ublue-os/silverblue:stable |
 | **التقنية** | bootc (ostree containers) |
 | **سطح المكتب** | GNOME مع ثيم WhiteSur (مطابق لـ macOS) |
 | **اللغات** | العربية (ar_SY) والإنجليزية (en_US) |
@@ -87,7 +87,7 @@ Zaatar/
 | gnome-shell-extension-user-theme | ثيم GNOME Shell |
 | sushi | Quick Look (Space في Nautilus) |
 | rpmfusion-free, rpmfusion-nonfree | مستودعات Codecs |
-| gstreamer1-plugin-libav, gstreamer1-plugins-ugly | تشغيل وسائط (مثل Bluefin) |
+| gstreamer1-plugin-libav, gstreamer1-plugins-ugly | تشغيل وسائط |
 | irqbalance | توزيع المقاطعات على CPU |
 | earlyoom | تمنع تجميد النظام عند امتلاء الذاكرة |
 
