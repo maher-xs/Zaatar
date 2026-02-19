@@ -85,6 +85,11 @@
 | 8.3 | تعيين Power Profile افتراضي (performance) | build.sh | تم: zaatar-power-profile.service |
 | 8.4 | تجربة macOS: WhiteSur icons، أزرار يسار، حركات، hot corners | build.sh | تم |
 | 8.5 | Ulauncher (Spotlight-like) + Sushi (Quick Look) | build.sh | تم |
+| 8.6 | earlyoom (منع تجميد النظام عند امتلاء الذاكرة) | build.sh | تم |
+| 8.7 | WhiteSur على Flatpak (GTK_THEME override) | build.sh | تم |
+| 8.8 | plymouth-quit-wait معطّل (إقلاع أسرع) | build.sh | تم |
+
+**غير متوفر حالياً:** ananicy-cpp (COPR build فاشل). **اختياري:** Dynamic Wallpaper – يمكن للمستخدم تثبيت `gnome-shell-extension-dynamic-wallpaper` يدوياً.
 
 **ملاحظة:** Fedora يضم zram افتراضياً. التطبيقات تبقى في الذاكرة عند التبديل ولا تُقتل – مثل macOS. راجع [docs/PERFORMANCE.md](PERFORMANCE.md).
 

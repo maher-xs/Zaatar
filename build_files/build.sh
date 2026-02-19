@@ -3,8 +3,8 @@
 # Arabic + English – user can switch between both in Settings > Region & Language.
 set -eoux pipefail
 
-# Essential packages only – language, fonts, input, spellcheck. Apps from Flathub.
-# WhiteSur icons installed from GitHub (macOS-like). sushi = Quick Look (Space in Nautilus).
+# Essential packages – language, fonts, input, spellcheck. WhiteSur from GitHub. sushi = Quick Look.
+# user-theme: required for WhiteSur GNOME Shell theme. sassc: for WhiteSur GTK build.
 rpm-ostree install \
     langpacks-ar langpacks-en \
     google-noto-sans-arabic-fonts \
@@ -13,30 +13,26 @@ rpm-ostree install \
     hunspell-ar \
     hunspell-en-US \
     ibus-m17n \
-    gnome-shell-extension-dash-to-dock \
+    rsms-inter-fonts \
+    fira-code-fonts \
     gnome-shell-extension-blur-my-shell \
+    gnome-shell-extension-user-theme \
     gnome-extensions-app \
-    sushi
+    sushi \
+    sassc \
+    glib2-devel \
+    libxml2 \
+    irqbalance \
+    earlyoom
 
 # Flathub – default source for apps (Firefox, etc. from base; user installs more from Software)
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo 2>/dev/null || true
-# Ulauncher – Spotlight-like launcher (Super to search). Install system-wide.
-flatpak install --system -y flathub com.github.ulauncher.Ulauncher 2>/dev/null || true
+# Pika Backup – Time Machine–like backup (Flathub)
+flatpak install --system -y flathub org.gnome.World.PikaBackup 2>/dev/null || true
 
 # Demo user for testing – log in as demo/zaatar, no account creation needed
 useradd -m -G wheel -s /bin/bash demo 2>/dev/null || true
 echo 'demo:zaatar' | chpasswd 2>/dev/null || true
-# Ulauncher autostart for all users (Spotlight-like, Super to search)
-mkdir -p /etc/xdg/autostart
-cat > /etc/xdg/autostart/ulauncher.desktop << 'ULAUNCHER'
-[Desktop Entry]
-Type=Application
-Name=Ulauncher
-Exec=flatpak run --filesystem=home com.github.ulauncher.Ulauncher
-Hidden=false
-NoDisplay=false
-X-GNOME-Autostart-enabled=true
-ULAUNCHER
 
 # Bilingual locale: Arabic (Syria) and English (US). Both available so user can switch.
 {
@@ -64,25 +60,66 @@ cat > /etc/dconf/db/local.d/02-zaatar-region << 'EOF'
 region='ar_SY.UTF-8'
 EOF
 
-# Tahoe theme (macOS-like GNOME): dark + blue accent + libadwaita + wallpapers. Use HOME=/tmp so install.sh does not touch /root.
-# Workaround: gum (used by Tahoe install) crashes under QEMU/emulation – use a no-op wrapper.
-cat > /tmp/gum << 'GUMEOF'
-#!/bin/bash
-[[ "$1" == "spin" ]] && shift && while [[ $# -gt 0 ]]; do [[ "$1" == "--" ]] && { shift; exec "$@"; }; shift; done
-exit 0
-GUMEOF
-chmod +x /tmp/gum
-git clone --depth 1 https://github.com/kayozxo/GNOME-macOS-Tahoe /tmp/Tahoe
-cd /tmp/Tahoe
-PATH="/tmp:$PATH" HOME=/tmp ./install.sh -d --color blue -la
-PATH="/tmp:$PATH" HOME=/tmp ./install.sh -w
+# WhiteSur GTK theme (full macOS-like: GTK3, GTK4, GNOME Shell, libadwaita, Flatpak)
+git clone --depth 1 https://github.com/vinceliuice/WhiteSur-gtk-theme /tmp/WhiteSur-gtk
+cd /tmp/WhiteSur-gtk
+./install.sh -c dark -m -l --silent-mode -d /usr/share/themes 2>/dev/null || ./install.sh -c dark -m -l -d /usr/share/themes
+# libadwaita (gtk-4.0) for system – run as root for /etc
+./install.sh -l -c dark -m --silent-mode 2>/dev/null || true
+# GDM theme (login screen)
+./tweaks.sh -g -c dark -m 2>/dev/null || true
 cd /
+rm -rf /tmp/WhiteSur-gtk
 
-# WhiteSur icon theme (macOS Big Sur style) – replaces Papirus for closer macOS look
+# WhiteSur icon theme (macOS Big Sur style)
 git clone --depth 1 https://github.com/vinceliuice/WhiteSur-icon-theme /tmp/WhiteSur-icons
 cd /tmp/WhiteSur-icons
 ./install.sh -a
 cd /
+rm -rf /tmp/WhiteSur-icons
+
+# WhiteSur cursors (macOS-style)
+git clone --depth 1 https://github.com/vinceliuice/WhiteSur-cursors /tmp/WhiteSur-cursors
+cp -r /tmp/WhiteSur-cursors/dist/WhiteSur-cursors /usr/share/icons/ 2>/dev/null || cp -r /tmp/WhiteSur-cursors/WhiteSur-cursors /usr/share/icons/ 2>/dev/null || true
+rm -rf /tmp/WhiteSur-cursors
+
+# GNOME extensions: Dash2Dock, Search Light, Tasks in Panel, Quick Settings, Rounded Corners, No Titlebar, Magic Lamp, Logo Menu
+DASH2DOCK_UUID="dash2dock-lite@icedman.github.com"
+SEARCH_LIGHT_UUID="search-light@icedman.github.com"
+TASKS_PANEL_UUID="tasks-in-panel@fthx"
+QS_TWEAKS_UUID="quick-settings-tweaks@qwreey"
+ROUNDED_UUID="rounded-window-corners-reborn@flexagoon"
+NOTITLEBAR_UUID="no-titlebar-when-maximized@alec.ninja"
+MAGIC_LAMP_UUID="compiz-alike-magic-lamp-effect@hermes83.github.com"
+LOGOMENU_UUID="logomenu@aryan_k"
+for uuid in "${DASH2DOCK_UUID}" "${SEARCH_LIGHT_UUID}" "${TASKS_PANEL_UUID}" "${QS_TWEAKS_UUID}" "${ROUNDED_UUID}" "${NOTITLEBAR_UUID}" "${MAGIC_LAMP_UUID}" "${LOGOMENU_UUID}"; do
+  mkdir -p /usr/share/gnome-shell/extensions/${uuid}
+done
+# Dash2Dock Animated (v86) – icon zoom, bounce, macOS-like dock
+curl -sL "https://extensions.gnome.org/extension-data/dash2dock-liteicedman.github.com.v86.shell-extension.zip" -o /tmp/dash2dock.zip 2>/dev/null || true
+# Search Light (v42) – Spotlight-like floating search
+curl -sL "https://extensions.gnome.org/extension-data/search-lighticedman.github.com.v42.shell-extension.zip" -o /tmp/search-light.zip 2>/dev/null || \
+  curl -sL "https://extensions.gnome.org/extension-data/search-lighticedman.github.com.v26.shell-extension.zip" -o /tmp/search-light.zip 2>/dev/null || true
+# Tasks in Panel (v54) – focused app name in center of top bar (مثل macOS)
+curl -sL "https://extensions.gnome.org/extension-data/tasks-in-panelfthx.v54.shell-extension.zip" -o /tmp/tasks-panel.zip 2>/dev/null || true
+# Quick Settings Tweaks – Media Controls, Volume Mixer, DND (مثل macOS Control Center)
+curl -sL "https://extensions.gnome.org/extension-data/quick-settings-tweaksqwreey.v30.shell-extension.zip" -o /tmp/qs-tweaks.zip 2>/dev/null || \
+  curl -sL "https://extensions.gnome.org/extension-data/quick-settings-tweaksqwreey.v29.shell-extension.zip" -o /tmp/qs-tweaks.zip 2>/dev/null || true
+# Rounded Window Corners (زوايا مدورة مثل macOS) – Reborn for GNOME 45+
+curl -sL "https://extensions.gnome.org/extension-data/rounded-window-corners-rebornflexagoon.v14.shell-extension.zip" -o /tmp/rounded.zip 2>/dev/null || true
+# No Titlebar When Maximized (إخفاء شريط العنوان عند التكبير مثل macOS)
+curl -sL "https://extensions.gnome.org/extension-data/no-titlebar-when-maximizedalecdotninja.v19.shell-extension.zip" -o /tmp/no-titlebar.zip 2>/dev/null || true
+curl -sL "https://extensions.gnome.org/extension-data/compiz-alike-magic-lamp-effecthermes83.github.com.v22.shell-extension.zip" -o /tmp/magic-lamp.zip 2>/dev/null || true
+curl -sL "https://extensions.gnome.org/extension-data/logomenuaryan_k.v21.shell-extension.zip" -o /tmp/logomenu.zip 2>/dev/null || true
+[ -f /tmp/dash2dock.zip ] && unzip -o -q /tmp/dash2dock.zip -d /usr/share/gnome-shell/extensions/${DASH2DOCK_UUID}/ 2>/dev/null || true
+[ -f /tmp/search-light.zip ] && unzip -o -q /tmp/search-light.zip -d /usr/share/gnome-shell/extensions/${SEARCH_LIGHT_UUID}/ 2>/dev/null || true
+[ -f /tmp/tasks-panel.zip ] && unzip -o -q /tmp/tasks-panel.zip -d /usr/share/gnome-shell/extensions/${TASKS_PANEL_UUID}/ 2>/dev/null || true
+[ -f /tmp/qs-tweaks.zip ] && unzip -o -q /tmp/qs-tweaks.zip -d /usr/share/gnome-shell/extensions/${QS_TWEAKS_UUID}/ 2>/dev/null || true
+[ -f /tmp/rounded.zip ] && unzip -o -q /tmp/rounded.zip -d /usr/share/gnome-shell/extensions/${ROUNDED_UUID}/ 2>/dev/null || true
+[ -f /tmp/no-titlebar.zip ] && unzip -o -q /tmp/no-titlebar.zip -d /usr/share/gnome-shell/extensions/${NOTITLEBAR_UUID}/ 2>/dev/null || true
+[ -f /tmp/magic-lamp.zip ] && unzip -o -q /tmp/magic-lamp.zip -d /usr/share/gnome-shell/extensions/${MAGIC_LAMP_UUID}/ 2>/dev/null || true
+[ -f /tmp/logomenu.zip ] && unzip -o -q /tmp/logomenu.zip -d /usr/share/gnome-shell/extensions/${LOGOMENU_UUID}/ 2>/dev/null || true
+rm -f /tmp/dash2dock.zip /tmp/search-light.zip /tmp/tasks-panel.zip /tmp/qs-tweaks.zip /tmp/rounded.zip /tmp/no-titlebar.zip /tmp/magic-lamp.zip /tmp/logomenu.zip
 
 # Zaatar custom wallpaper: install to system backgrounds and set as default (PNG preferred over SVG)
 mkdir -p /usr/share/backgrounds/zaatar
@@ -98,11 +135,30 @@ fi
 [ -f /tmp/zaatar-assets/wallpapers/zaatar-wallpaper-ultrawide.png ] && \
   cp /tmp/zaatar-assets/wallpapers/zaatar-wallpaper-ultrawide.png /usr/share/backgrounds/zaatar/
 
-# Default appearance: Zaatar wallpaper (if present) + WhiteSur icons (macOS-like)
-cat > /etc/dconf/db/local.d/03-zaatar-appearance << EOF
+# macOS-like appearance: WhiteSur full theme, Inter font, window buttons left
+mkdir -p /etc/dconf/profile
+echo -e 'user-db:user\nsystem-db:local' > /etc/dconf/profile/user
+cat > /etc/dconf/db/local.d/03-zaatar-appearance << 'APPEAR'
 [org/gnome/desktop/interface]
-icon-theme='WhiteSur'
-EOF
+gtk-theme='WhiteSur-Dark'
+icon-theme='WhiteSur-dark'
+cursor-theme='WhiteSur-cursors'
+cursor-size=24
+font-name='Inter 11'
+document-font-name='Inter 11'
+monospace-font-name='Fira Code 10'
+enable-animations=true
+enable-hot-corners=true
+show-battery-percentage=true
+
+[org/gnome/desktop/wm/preferences]
+button-layout='close,minimize,maximize:'
+theme='WhiteSur-Dark'
+focus-mode='click'
+
+[org/gnome/shell/extensions/user-theme]
+name='WhiteSur-Dark'
+APPEAR
 if [ -n "$WALLPAPER_URI" ]; then
   cat >> /etc/dconf/db/local.d/03-zaatar-appearance << EOF
 
@@ -113,53 +169,104 @@ picture-options='zoom'
 EOF
 fi
 
-# Enable Dash to Dock and Blur my Shell by default for all users (system-wide)
-mkdir -p /etc/dconf/profile
-echo -e 'user-db:user\nsystem-db:local' > /etc/dconf/profile/user
-cat > /etc/dconf/db/local.d/04-zaatar-extensions << 'EOF'
+# Extensions: Dash2Dock, Search Light, Tasks in Panel, Blur, Magic Lamp, Logo Menu, User Theme
+cat > /etc/dconf/db/local.d/04-zaatar-extensions << 'EXT'
 [org/gnome/shell]
-enabled-extensions=['dash-to-dock@micxgx.gmail.com', 'blur-my-shell@aunetx']
-EOF
-# Dash to Dock: bottom, icon size, show on all monitors
-mkdir -p /etc/dconf/db/local.d
-cat >> /etc/dconf/db/local.d/04-zaatar-extensions << 'EOF'
+enabled-extensions=['dash2dock-lite@icedman.github.com', 'search-light@icedman.github.com', 'tasks-in-panel@fthx', 'quick-settings-tweaks@qwreey', 'rounded-window-corners-reborn@flexagoon', 'no-titlebar-when-maximized@alec.ninja', 'blur-my-shell@aunetx', 'compiz-alike-magic-lamp-effect@hermes83.github.com', 'logomenu@aryan_k', 'user-theme@gnome-shell-extensions.gcampax.github.com']
+favorite-apps=['org.gnome.Nautilus.desktop', 'org.mozilla.firefox.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.Settings.desktop']
 
-[org/gnome/shell/extensions/dash-to-dock]
-dock-position='BOTTOM'
-extend-height=false
-dock-fixed=true
-show-apps-at-top=false
-show-mounts=false
-show-trash=false
-apply-custom-theme=false
-EOF
+[org/gnome/shell/extensions/dash2dock-lite]
+icon-size=48
+icon-effect=1
+animate-icons=true
+animate-icons-unmute=true
+running-indicator-style=2
+dock-location=3
+autohide-dash=true
+autohide-dodge=true
+peek-hidden-icons=true
+trash-icon=false
+mounted-icon=false
 
-# macOS-like: animations on, window buttons left (red/yellow/green), hot corners
-cat > /etc/dconf/db/local.d/05-zaatar-macos << 'EOF'
-[org/gnome/desktop/interface]
-enable-animations=true
-enable-hot-corners=true
+[org/gnome/shell/extensions/search-light]
+shortcut-search=['<Super>space']
+show-panel-icon=false
+blur-background=true
+border-radius=12
 
-[org/gnome/desktop.wm.preferences]
-button-layout='close,minimize,maximize:'
-EOF
+[org/gnome/shell/extensions/tasks-in-panel]
+show-task-for-focused-window-only=true
+move-tasks-to-center=true
+show-activities-indicator=false
+move-date-menu-button-to-right=true
 
-# Allow Flatpaks to use host GTK config (theme)
-flatpak override --filesystem=xdg-config/gtk-3.0 2>/dev/null || true
-flatpak override --filesystem=xdg-config/gtk-4.0 2>/dev/null || true
+[org/gnome/shell/extensions/quick-settings-tweaks]
+add-dnd-quick-toggle-enabled=true
+media-control-enabled=true
+volume-mixer-enabled=true
 
-# Performance: zram larger (max 16GB), faster boot, power profile
+[org/gnome/shell/extensions/rounded-window-corners-reborn]
+border-radius=12
+
+[org/gnome/shell/extensions/blur-my-shell]
+blur-dash=true
+blur-panel=true
+blur-overview=true
+
+[org/gnome/shell/extensions/Logo-menu]
+menu-button-icon-image=23
+EXT
+
+# Night Light (مثل Night Shift في macOS) + Touchpad (مطابق لماك)
+cat > /etc/dconf/db/local.d/05-zaatar-nightlight-touchpad << 'NIGHT'
+[org/gnome/settings-daemon/plugins/color]
+night-light-enabled=true
+night-light-schedule-automatic=true
+night-light-temperature=3700
+
+[org/gnome/desktop/peripherals/touchpad]
+tap-to-click=true
+two-finger-scrolling-enabled=true
+natural-scroll=true
+speed=0.2
+NIGHT
+
+# Flatpak: تطبيق WhiteSur على تطبيقات Flatpak (مثل macOS)
+flatpak override --filesystem=xdg-config/gtk-3.0:ro --system 2>/dev/null || true
+flatpak override --filesystem=xdg-config/gtk-4.0:ro --system 2>/dev/null || true
+flatpak override --env=GTK_THEME=WhiteSur-Dark --system 2>/dev/null || true
+
+# Performance: zram (zstd, max 16GB), sysctl (مثل macOS), irqbalance, fstrim
 mkdir -p /etc/systemd/zram-generator.conf.d
 cat > /etc/systemd/zram-generator.conf.d/10-zaatar-performance.conf << 'EOF'
 [zram0]
-max-zram-size = 16384
+zram-size = min(ram, 16384)
+compression-algorithm = zstd
 EOF
+# vm tuning: swappiness=10 (تأخير swap), vfs_cache_pressure=50 (مثل macOS)
+mkdir -p /etc/sysctl.d
+cat > /etc/sysctl.d/99-zaatar-performance.conf << 'EOF'
+# مثل macOS: يؤخر swap ويحافظ على cache
+vm.swappiness=10
+vm.vfs_cache_pressure=50
+vm.dirty_background_ratio=5
+vm.dirty_ratio=10
+vm.page-cluster=0
+EOF
+# irqbalance: توزيع المقاطعات على أنوية CPU
+systemctl enable irqbalance 2>/dev/null || true
+# earlyoom: تمنع تجميد النظام عند امتلاء الذاكرة (مثل macOS)
+systemctl enable earlyoom 2>/dev/null || true
+# fstrim.timer: TRIM تلقائي للـ SSD
+systemctl enable fstrim.timer 2>/dev/null || true
+# إقلاع أسرع: عدم انتظار الشبكة + plymouth-quit-wait
 mkdir -p /etc/systemd/system/NetworkManager-wait-online.service.d
 cat > /etc/systemd/system/NetworkManager-wait-online.service.d/zaatar-boot.conf << 'EOF'
 [Service]
 ExecStart=
 ExecStart=/bin/true
 EOF
+systemctl disable plymouth-quit-wait.service 2>/dev/null || true
 mkdir -p /etc/systemd/system
 cat > /etc/systemd/system/zaatar-power-profile.service << 'EOF'
 [Unit]
@@ -179,12 +286,63 @@ ln -sf ../zaatar-power-profile.service /etc/systemd/system/graphical.target.want
 
 dconf update
 
-# OS branding: "Zaatar" only – no Bluefin or other base names visible to user
-# Every place that can show OS name or system info shows Zaatar (Latin)
+# OS branding: "Zaatar" / "زعتر" – localized by user language (عربي → زعتر، English → Zaatar)
+# Script runs at login to set NAME/PRETTY_NAME based on LANG
+mkdir -p /usr/libexec/zaatar
+cat > /usr/libexec/zaatar/update-os-name-by-locale.sh << 'OSSCRIPT'
+#!/usr/bin/env bash
+# Set OS name by LANG: ar → زعتر، else → Zaatar (Settings > About, GDM, etc.)
+LANG="${LANG:-en_US.UTF-8}"
+if [[ "$LANG" == ar* ]]; then
+  NAME='زعتر'
+  PRETTY='زعتر 1.0'
+else
+  NAME='Zaatar'
+  PRETTY='Zaatar 1.0'
+fi
+for f in /etc/os-release /usr/lib/os-release; do
+  [ -f "$f" ] || continue
+  sed -i "s/^NAME=.*/NAME=\"$NAME\"/" "$f"
+  sed -i "s/^PRETTY_NAME=.*/PRETTY_NAME=\"$PRETTY\"/" "$f"
+done
+# machine-info (hostnamectl) + issue/issue.net (console)
+printf 'PRETTY_HOSTNAME=%s\nCHASSIS=desktop\n' "$NAME" > /etc/machine-info 2>/dev/null || true
+echo "$PRETTY" > /etc/issue 2>/dev/null || true
+echo "$PRETTY" > /etc/issue.net 2>/dev/null || true
+OSSCRIPT
+chmod +x /usr/libexec/zaatar/update-os-name-by-locale.sh
+# Sudoers: allow any user to run the script (for locale-based os-release update)
+mkdir -p /etc/sudoers.d
+echo 'ALL ALL=(ALL) NOPASSWD: /usr/libexec/zaatar/update-os-name-by-locale.sh' > /etc/sudoers.d/zaatar-os-name
+chmod 440 /etc/sudoers.d/zaatar-os-name
+# Autostart: run at login to apply locale (عربي → زعتر، English → Zaatar)
+cat > /etc/xdg/autostart/zaatar-os-name.desktop << 'OSDESKTOP'
+[Desktop Entry]
+Type=Application
+Name=Zaatar OS Name
+Exec=/bin/bash -c 'sudo LANG="$LANG" /usr/libexec/zaatar/update-os-name-by-locale.sh'
+Hidden=true
+NoDisplay=true
+X-GNOME-Autostart-enabled=true
+OSDESKTOP
 
-# 1) os-release – main OS identity (Settings > About, installer, scripts, GDM)
-# ID and VERSION_ID must stay fedora/42 so bootc-image-builder finds fedora-42 def (anaconda-iso).
-# Override NAME/PRETTY_NAME to Zaatar – that's what users see; ID is internal for build tools.
+# At boot: apply default LANG from locale.conf (for GDM, login screen)
+mkdir -p /etc/systemd/system
+cat > /etc/systemd/system/zaatar-os-name-boot.service << 'OSBOOT'
+[Unit]
+Description=Zaatar OS name by locale (boot)
+After=local-fs.target
+Before=display-manager.service
+[Service]
+Type=oneshot
+ExecStart=/bin/bash -c 'source /etc/locale.conf 2>/dev/null; export LANG; /usr/libexec/zaatar/update-os-name-by-locale.sh'
+RemainAfterExit=yes
+[Install]
+WantedBy=multi-user.target
+OSBOOT
+ln -sf /etc/systemd/system/zaatar-os-name-boot.service /etc/systemd/system/multi-user.target.wants/zaatar-os-name-boot.service 2>/dev/null || true
+
+# 1) os-release – base values (script updates by LANG at boot + login)
 sed -i 's/^ID=.*/ID=fedora/' /etc/os-release
 sed -i 's/^VERSION_ID=.*/VERSION_ID="42"/' /etc/os-release
 sed -i 's/^NAME=.*/NAME="Zaatar"/' /etc/os-release
@@ -198,21 +356,18 @@ if [ -f /usr/lib/os-release ] && [ ! -L /etc/os-release ]; then
   cp /etc/os-release /usr/lib/os-release 2>/dev/null || true
 fi
 
-# 2) Login and console – first thing user sees
+# 2) issue, issue.net, machine-info – initial values (script updates by LANG at boot + login)
 echo 'Zaatar 1.0' > /etc/issue
 echo 'Zaatar 1.0' > /etc/issue.net
+mkdir -p /etc && printf 'PRETTY_HOSTNAME=Zaatar\nCHASSIS=desktop\n' > /etc/machine-info
 
-# 3) machine-info – pretty hostname (hostnamectl, some UIs)
-mkdir -p /etc
-printf 'PRETTY_HOSTNAME=Zaatar\nCHASSIS=desktop\n' > /etc/machine-info
-
-# 4) Message of the day (e.g. after SSH login or console)
+# 3) Message of the day (e.g. after SSH login or console)
 echo 'Welcome to Zaatar 1.0 – Arabic/English desktop.' > /etc/motd
 
-# 5) Single place that always says what this system is (for scripts/docs)
+# 4) Single place that always says what this system is (for scripts/docs)
 echo 'Zaatar 1.0 - Arabic/English desktop.' > /etc/zaatar-release 2>/dev/null || true
 
-# 6) GRUB boot menu – show "Zaatar 1.0" instead of "Zaatar 42"
+# 5) GRUB boot menu – show "Zaatar 1.0" instead of "Zaatar 42"
 # GRUB_DISTRIBUTOR is used by grub2-mkconfig for menuentry titles; bootc-image-builder may also
 # read /etc/system-release. Both are set so the boot menu displays "Zaatar 1.0" for the user.
 echo 'Zaatar 1.0' > /etc/system-release 2>/dev/null || true

@@ -1,6 +1,6 @@
 # Zaatar (زعتر)
 
-**Zaatar** is an Arabic/English desktop OS image based on [Universal Blue](https://universal-blue.org/) Bluefin. The system is branded as **Zaatar** (in Latin script) everywhere: installer, first boot, login screen, and OS name. It ships with Arabic and English language support, Syrian locale and timezone (Damascus), Noto Arabic fonts, Tahoe theme (macOS-like GNOME), WhiteSur icons, custom Zaatar wallpaper, Ulauncher (Spotlight-like), and Quick Look (Sushi).
+**Zaatar** is an Arabic/English desktop OS image based on [Universal Blue](https://universal-blue.org/) Bluefin. The system is branded as **Zaatar** (in Latin script) everywhere: installer, first boot, login screen, and OS name. It ships with Arabic and English language support, Syrian locale and timezone (Damascus), Noto Arabic fonts, WhiteSur theme (macOS-like GTK + GNOME Shell), WhiteSur icons and cursors, custom Zaatar wallpaper, Search Light (Spotlight-like, Super+Space), Dash2Dock Animated, Pika Backup (Time Machine–like), and Quick Look (Sushi).
 
 - **Languages:** Arabic (ar_SY) and English (en_US). Both are installed; you can switch from **Settings → Region & Language** (add English or Arabic and choose the display language). Account names in English (Latin letters) are fully supported.
 - **Base:** [ghcr.io/ublue-os/bluefin:stable](https://github.com/ublue-os/bluefin) (bootc).
@@ -27,7 +27,7 @@ The system is bilingual. To change the interface language:
 3. Under **Language** (اللغة), click **Add Language** (إضافة لغة) and add **English (United States)** or **العربية** if not already there.
 4. Select the language you want and move it to the top of the list, or choose it as the display language.
 
-Keyboard: you already have **English (US)** and **Arabic**; switch with the keyboard icon in the top bar or with the shortcut (e.g. Super+Space).
+Keyboard: you already have **English (US)** and **Arabic**; switch with the keyboard icon in the top bar or with the shortcut (e.g. Super+Space). **Search Light** uses Super+Space for Spotlight-like search; if you need a different shortcut for input switching, change it in Settings → Keyboard.
 
 ## Download disk image (QCOW2) or installer (ISO)
 

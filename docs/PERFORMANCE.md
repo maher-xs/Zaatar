@@ -74,18 +74,32 @@ sudo systemctl disable bluetooth
 
 | الإضافة | الغرض |
 |---------|-------|
-| `zram-generator.conf.d/10-zaatar-performance.conf` | zram حتى 16GB (بدل 8GB) |
+| `zram-generator.conf.d/10-zaatar-performance.conf` | zram حتى 16GB، ضغط zstd |
+| `sysctl.d/99-zaatar-performance.conf` | vm.swappiness=10، vfs_cache_pressure=50 (مثل macOS) |
 | `NetworkManager-wait-online.service.d/zaatar-boot.conf` | عدم انتظار الشبكة عند الإقلاع → إقلاع أسرع |
-| `zaatar-power-profile.service` | ملف الطاقة الافتراضي: throughput-performance (يعمل مع tuned-ppd في Bluefin) |
-| `dconf 05-zaatar-performance` | `enable-animations=false` لواجهة أسرع |
+| `zaatar-power-profile.service` | ملف الطاقة الافتراضي: throughput-performance |
+| `irqbalance` | توزيع المقاطعات على أنوية CPU |
+| `earlyoom` | تمنع تجميد النظام عند امتلاء الذاكرة (مثل macOS) |
+| `fstrim.timer` | TRIM تلقائي للـ SSD |
+| `plymouth-quit-wait.service` | معطّل (إقلاع أسرع) |
+| `dconf 03-zaatar-appearance` | `enable-animations=true` افتراضياً (مثل macOS) |
 
 **ملاحظات:**
 - على أجهزة اللابتوب: تغيير ملف الطاقة من Settings → Power إلى Balanced أو Power Saver لتوفير البطارية.
 - على الـ VM أو بعض المعالجات: قد لا يتوفر "performance" – الخدمة تتجاهل الفشل ولا تؤثر على الإقلاع.
+- **ananicy-cpp** (أولوية CPU تلقائية مثل App Nap): غير متوفر في مستودعات Fedora الرسمية – يتطلب COPR (مثلاً `bieszczaders/kernel-cachyos-addons`).
 
 ---
 
 ## 5. قائمة تحقق سريعة
+
+تشغيل السكربت على نظام Zaatar:
+
+```bash
+./scripts/check-performance.sh
+```
+
+أو يدوياً:
 
 - [ ] التحقق من zram: `zramctl` و `swapon`
 - [ ] التحقق من ملف الطاقة: `tuned-adm active` (يجب أن يكون throughput-performance)

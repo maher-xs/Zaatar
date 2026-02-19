@@ -4,6 +4,8 @@
 **الإصدار:** Zaatar 1.0  
 **المستودع:** https://github.com/maher-xs/Zaatar
 
+> **لتقرير تفصيلي بكل الملفات والأكواد والأمان:** انظر [FULL_REPORT.md](FULL_REPORT.md)
+
 ---
 
 ## 1. نظرة عامة
@@ -14,7 +16,7 @@
 |-------|--------|
 | **القاعدة** | ghcr.io/ublue-os/bluefin:stable |
 | **التقنية** | bootc (ostree containers) |
-| **سطح المكتب** | GNOME مع ثيم Tahoe (مستوحى من macOS) |
+| **سطح المكتب** | GNOME مع ثيم WhiteSur (مطابق لـ macOS) |
 | **اللغات** | العربية (ar_SY) والإنجليزية (en_US) |
 | **المنطقة** | سوريا (دمشق) |
 
@@ -36,30 +38,44 @@
 
 | المكون | الوصف |
 |--------|--------|
-| ثيم Tahoe | داكن، لون أزرق، libadwaita |
-| أيقونات WhiteSur | macOS Big Sur–style |
+| ثيم WhiteSur GTK | داكن، Monterey style، GTK3+GTK4+libadwaita+GDM |
+| أيقونات WhiteSur-dark | macOS Big Sur–style |
+| مؤشرات WhiteSur-cursors | مطابقة لماك |
+| خط Inter | بديل SF Pro (مفتوح المصدر) |
 | خلفية زعتر | مخصصة (PNG/SVG)، افتراضية |
 | خلفية Ultrawide | متوفرة في الإعدادات |
 | أزرار النافذة | يسار (أحمر/أصفر/أخضر) |
 | الحركات | مفعّلة |
 | الزوايا الساخنة | مفعّلة |
+| Night Light | مفعّل تلقائياً (مثل Night Shift) |
+| Touchpad | tap-to-click، natural scroll، سرعة 0.2 |
 | Flatpak | يستخدم ثيم النظام |
 
 ### 2.3 إضافات GNOME (مفعّلة افتراضياً)
 
 | الإضافة | الوظيفة |
 |---------|----------|
-| Dash to Dock | شريط سفلي، أسفل الشاشة |
-| Blur my Shell | ضبابية للوحة والـ dash |
+| Dash2Dock Animated | شريط سفلي مع zoom و bounce و autohide – مثل macOS Dock |
+| Search Light | Spotlight (Super+Space) – بحث عائم |
+| Tasks in Panel | اسم التطبيق في وسط الشريط العلوي (مثل macOS) |
+| Quick Settings Tweaks | Media Controls، Volume Mixer، DND في Quick Settings (مثل Control Center) |
+| Rounded Window Corners Reborn | زوايا مدورة للنوافذ (مثل macOS) |
+| No Titlebar When Maximized | إخفاء شريط العنوان عند التكبير |
+| Blur my Shell | ضبابية للوحة والـ dash والـ overview |
+| Magic Lamp | تأثير Genie عند تصغير النوافذ |
+| Logo Menu | قائمة أبل في الشريط العلوي |
+| User Theme | تطبيق ثيم WhiteSur على GNOME Shell |
 
 ### 2.4 العلامة التجارية (Branding)
 
+اسم النظام يتغير حسب اللغة: **عربي → زعتر**، **English → Zaatar**.
+
 | المكان | ما يظهر |
 |--------|---------|
-| الإعدادات → حول | Zaatar 1.0 |
-| شاشة تسجيل الدخول (GDM) | Zaatar |
-| الطرفية / SSH | Zaatar 1.0 |
-| hostnamectl | Zaatar |
+| الإعدادات → حول | زعتر 1.0 (عربي) أو Zaatar 1.0 (English) |
+| شاشة تسجيل الدخول (GDM) | حسب اللغة الافتراضية |
+| الطرفية / SSH | زعتر أو Zaatar |
+| hostnamectl | زعتر أو Zaatar |
 | GRUB | Zaatar 1.0 |
 
 ### 2.5 مستخدم التجربة (Demo)
@@ -74,25 +90,27 @@
 |--------|-----------|
 | الصورة الأساسية | Firefox، تطبيقات GNOME |
 | Flathub | تثبيت المزيد من **البرامج** |
-| Ulauncher | Spotlight-like (Super)، تشغيل تلقائي |
+| Search Light | Spotlight (Super+Space) – إضافة GNOME |
+| Pika Backup | نسخ احتياطي تلقائي (مثل Time Machine) |
 | Sushi | Quick Look – Space في Nautilus |
 
 ---
 
-## 3. الحزم المثبتة (أساسية فقط)
+## 3. الحزم المثبتة (أساسية)
 
 | الحزمة | الغرض |
 |--------|--------|
 | langpacks-ar, langpacks-en | حزم اللغة |
-| google-noto-sans-arabic-fonts | خطوط عربية |
-| google-noto-kufi-arabic-fonts | خط كوفي |
+| google-noto-sans-arabic-fonts, google-noto-kufi-arabic-fonts | خطوط عربية |
 | google-noto-sans-fonts | خطوط لاتينية |
 | hunspell-ar, hunspell-en-US | الإملاء |
 | ibus-m17n | إدخال عربي |
+| rsms-inter-fonts, fira-code-fonts | خطوط Inter و Fira Code |
 | sushi | Quick Look (معاينة سريعة) |
-| gnome-shell-extension-dash-to-dock | إضافة الشريط |
-| gnome-shell-extension-blur-my-shell | إضافة الضبابية |
+| gnome-shell-extension-blur-my-shell, user-theme | إضافات GNOME |
 | gnome-extensions-app | إدارة الإضافات |
+| sassc, glib2-devel, libxml2 | بناء WhiteSur |
+| irqbalance | توزيع المقاطعات |
 
 ---
 
@@ -100,10 +118,12 @@
 
 | الإعداد | القيمة |
 |--------|--------|
-| zram | حتى 16 GB |
+| zram | حتى 16 GB، ضغط zstd |
+| sysctl | vm.swappiness=10، vfs_cache_pressure=50 |
 | ملف طاقة | throughput-performance (tuned) |
-| إقلاع أسرع | تعطيل انتظار الشبكة |
-| حركات | معطّلة (enable-animations=false) |
+| إقلاع أسرع | تعطيل انتظار الشبكة + plymouth |
+| irqbalance, fstrim.timer | مفعّلان |
+| حركات | مفعّلة (enable-animations=true) |
 
 ---
 
@@ -182,6 +202,7 @@ sudo bootc switch ghcr.io/maher-xs/zaatar:latest
 |-------|--------|
 | README.md | نظرة عامة |
 | README.ar.md | النسخة العربية |
+| docs/FULL_REPORT.md | **تقرير شامل بكل الملفات والأكواد والأمان** |
 | docs/CHECKLIST.md | قائمة الجاهزية |
 | docs/DOWNLOAD.md | التحميل والتشغيل |
 | docs/LOCALE.md | اللغة والمنطقة |

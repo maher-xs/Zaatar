@@ -1,32 +1,33 @@
-# GNOME Shell Extensions – Recommended for Zaatar
+# GNOME Shell Extensions – Zaatar (macOS-like)
 
-Zaatar pre-installs **Dash to Dock** and **Blur my Shell**. Install the rest from [extensions.gnome.org](https://extensions.gnome.org/) for the full Tahoe-like experience.
+Zaatar pre-installs and enables these extensions for a macOS-like experience.
 
 ## Pre-installed and enabled by default
 
 | Extension | Description |
 |-----------|-------------|
-| [Dash to Dock](https://extensions.gnome.org/extension/307/dash-to-dock/) | Dock at bottom for launching apps – **enabled on first boot** |
-| [Blur my Shell](https://extensions.gnome.org/extension/3193/blur-my-shell/) | Blur on panel, dash, overview – **enabled on first boot** |
+| [Dash2Dock Animated](https://extensions.gnome.org/extension/4994/dash2dock-lite/) | Dock with icon zoom, bounce, autohide – **macOS Dock style** |
+| [Search Light](https://extensions.gnome.org/extension/5489/search-light/) | Spotlight-like floating search (Super+Space) |
+| [Tasks in Panel](https://extensions.gnome.org/extension/8642/tasks-in-panel/) | App name in center of top bar (مثل macOS) |
+| [Quick Settings Tweaks](https://extensions.gnome.org/extension/5446/quick-settings-tweaks/) | Media Controls, Volume Mixer, DND in Quick Settings (مثل Control Center) |
+| [Rounded Window Corners Reborn](https://extensions.gnome.org/extension/7048/rounded-window-corners-reborn/) | زوايا مدورة للنوافذ (مثل macOS) |
+| [No Titlebar When Maximized](https://extensions.gnome.org/extension/4630/no-titlebar-when-maximized/) | إخفاء شريط العنوان عند التكبير |
+| [Blur my Shell](https://extensions.gnome.org/extension/3193/blur-my-shell/) | Blur on panel, dash, overview |
+| [Magic Lamp](https://extensions.gnome.org/extension/3740/compiz-alike-magic-lamp-effect/) | Genie effect when minimizing windows |
+| [Logo Menu](https://extensions.gnome.org/extension/4451/logo-menu/) | Apple-style menu in top-left panel |
+| [User Theme](https://extensions.gnome.org/extension/19/user-themes/) | WhiteSur GNOME Shell theme |
+
+## Other apps (macOS-like)
+
+| App | Source | Description |
+|-----|--------|-------------|
+| **Pika Backup** | Flathub | Time Machine–like backup – automatic, encrypted, to external/network |
+| **Sushi** | RPM | Quick Look – press **Space** in Files (Nautilus) to preview |
 
 ## Recommended (install manually)
 
-Open **Extensions** app (or visit extensions.gnome.org) and install:
-
 | Extension | Link | Description |
 |-----------|------|-------------|
-| **Open Bar** | [6580](https://extensions.gnome.org/extension/6580/open-bar/) | Theme Top Bar, menus, dash – auto-colors from wallpaper |
-| **User Themes** | [19](https://extensions.gnome.org/extension/19/user-themes/) | Load shell themes from `~/.themes` (needed for Tahoe) |
-| **Gnome 4x UI Improvements** | [4158](https://extensions.gnome.org/extension/4158/gnome-40-ui-improvements/) | Better Overview: search, workspaces, wallpaper on thumbnails |
-| **Space Bar** | [5090](https://extensions.gnome.org/extension/5090/space-bar/) | i3-like workspaces bar in top panel |
-| **Tiling Shell** | [7065](https://extensions.gnome.org/extension/7065/tiling-shell/) | Advanced tiling window management |
+| **Open Bar** | [6580](https://extensions.gnome.org/extension/6580/open-bar/) | Theme Top Bar from wallpaper |
+| **Gnome 4x UI Improvements** | [4158](https://extensions.gnome.org/extension/4158/gnome-40-ui-improvements/) | Better Overview |
 | **Vitals** | [1460](https://extensions.gnome.org/extension/1460/vitals/) | CPU, memory, disk in top panel |
-
-## Quick install (browser)
-
-1. Install [GNOME Shell integration](https://wiki.gnome.org/Projects/GnomeShellIntegrationForChrome/Installation) for Chrome/Firefox.
-2. Visit each link above and click **ON** to install.
-
-## Open Bar + wallpaper
-
-[Open Bar](https://extensions.gnome.org/extension/6580/open-bar/) can **auto-theme** from your desktop background – it extracts colors and applies them to the Top Bar, menus, and dash. Works great with the Zaatar fluidic wallpapers.
