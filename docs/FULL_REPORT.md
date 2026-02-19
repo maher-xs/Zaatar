@@ -100,11 +100,6 @@ Zaatar/
 | التطبيق | المصدر | الغرض |
 |---------|--------|-------|
 | Pika Backup | Flathub | نسخ احتياطي تلقائي (مثل Time Machine) |
-| Steam | com.valvesoftware.Steam | ألعاب Linux و Windows (Proton) |
-| ProtonUp-Qt | net.davidotek.pupgui2 | إدارة إصدارات Proton |
-| Bottles | com.usebottles.bottles | تشغيل تطبيقات Windows (.exe) |
-| Heroic | com.heroicgameslauncher.hgl | ألعاب Epic Games و GOG |
-| Lutris | net.lutris.Lutris | منصة ألعاب شاملة |
 
 ---
 
@@ -133,6 +128,7 @@ Zaatar/
 | WhiteSur GTK | vinceliuice/WhiteSur-gtk-theme | GTK3, GTK4, GNOME Shell, libadwaita, GDM |
 | WhiteSur Icons | vinceliuice/WhiteSur-icon-theme | أيقونات WhiteSur-dark |
 | WhiteSur Cursors | vinceliuice/WhiteSur-cursors | مؤشرات شبيهة بـ macOS |
+| WhiteSur Firefox | vinceliuice/WhiteSur-firefox-theme | ثيم Safari-like لـ Firefox (عبر /etc/skel + autostart) |
 
 ---
 

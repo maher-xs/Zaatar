@@ -31,41 +31,6 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 # Pika Backup – Time Machine–like backup (Flathub)
 flatpak install --system -y flathub org.gnome.World.PikaBackup 2>/dev/null || true
 
-# ===== الألعاب وتطبيقات Windows =====
-flatpak install --system -y flathub com.valvesoftware.Steam 2>/dev/null || true
-flatpak install --system -y flathub net.davidotek.pupgui2 2>/dev/null || true
-flatpak install --system -y flathub com.usebottles.bottles 2>/dev/null || true
-flatpak install --system -y flathub com.heroicgameslauncher.hgl 2>/dev/null || true
-flatpak install --system -y flathub net.lutris.Lutris 2>/dev/null || true
-flatpak override --filesystem=host com.valvesoftware.Steam --system 2>/dev/null || true
-flatpak override --filesystem=home com.usebottles.bottles --system 2>/dev/null || true
-flatpak override --filesystem=xdg-data/applications com.usebottles.bottles --system 2>/dev/null || true
-# Steam Play (Proton) مفعّل افتراضياً لكل الألعاب
-mkdir -p /etc/skel/.steam/steam/config
-cat > /etc/skel/.steam/steam/config/config.vdf << 'STEAMEOF'
-"InstallConfigStore"
-{
-  "Software"
-  {
-    "Valve"
-    {
-      "Steam"
-      {
-        "CompatToolMapping"
-        {
-          "0"
-          {
-            "name"    "proton_experimental"
-            "config"  ""
-            "Priority" "250"
-          }
-        }
-      }
-    }
-  }
-}
-STEAMEOF
-
 # Demo user for testing – log in as demo/zaatar, no account creation needed
 useradd -m -G wheel -s /bin/bash demo 2>/dev/null || true
 echo 'demo:zaatar' | chpasswd 2>/dev/null || true
@@ -122,6 +87,65 @@ elif [ -d /tmp/WhiteSur-cursors/WhiteSur-cursors ]; then
     cp -r /tmp/WhiteSur-cursors/WhiteSur-cursors /usr/share/icons/
 fi
 rm -rf /tmp/WhiteSur-cursors
+
+# ===== WhiteSur Firefox Theme =====
+git clone --depth 1 https://github.com/vinceliuice/WhiteSur-firefox-theme.git /tmp/WhiteSur-firefox-theme 2>/dev/null || true
+if [ -d /tmp/WhiteSur-firefox-theme ]; then
+    FF_SRC="/tmp/WhiteSur-firefox-theme/src"
+    FF_CHROME="/etc/skel/.mozilla/firefox/chrome"
+    mkdir -p "${FF_CHROME}"
+    # Replicate install.sh logic: WhiteSur theme + common assets
+    if [ -d "${FF_SRC}/WhiteSur" ]; then
+        cp -r "${FF_SRC}/WhiteSur" "${FF_CHROME}/"
+        [ -f "${FF_SRC}/customChrome.css" ] && cp -f "${FF_SRC}/customChrome.css" "${FF_CHROME}/"
+        [ -f "${FF_SRC}/userChrome-WhiteSur.css" ] && cp -f "${FF_SRC}/userChrome-WhiteSur.css" "${FF_CHROME}/userChrome.css"
+        [ -f "${FF_SRC}/userContent-WhiteSur.css" ] && cp -f "${FF_SRC}/userContent-WhiteSur.css" "${FF_CHROME}/userContent.css"
+        if [ -d "${FF_SRC}/common" ]; then
+            cp -rf "${FF_SRC}/common/icons" "${FF_CHROME}/WhiteSur/" 2>/dev/null || true
+            cp -rf "${FF_SRC}/common/titlebuttons" "${FF_CHROME}/WhiteSur/" 2>/dev/null || true
+            cp -rf "${FF_SRC}/common/pages" "${FF_CHROME}/WhiteSur/" 2>/dev/null || true
+            for f in "${FF_SRC}/common/"*.css; do [ -f "$f" ] && cp -f "$f" "${FF_CHROME}/WhiteSur/"; done 2>/dev/null || true
+            mkdir -p "${FF_CHROME}/WhiteSur/parts"
+            for f in "${FF_SRC}/common/parts/"*.css; do [ -f "$f" ] && cp -f "$f" "${FF_CHROME}/WhiteSur/parts/"; done 2>/dev/null || true
+        fi
+    fi
+    cat > /etc/skel/.mozilla/firefox/user.js << 'FFEOF'
+user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
+user_pref("layers.acceleration.force-enabled", true);
+user_pref("browser.tabs.drawInTitlebar", true);
+FFEOF
+    # سكربت يطبّق الثيم على profiles Firefox (يعيد المحاولة كل 10 ثوانٍ لمدة دقيقتين)
+    mkdir -p /usr/libexec/zaatar
+    cat > /usr/libexec/zaatar/apply-firefox-theme.sh << 'FFSCRIPT'
+#!/usr/bin/env bash
+# يطبّق WhiteSur على كل profiles Firefox — يعيد المحاولة عند أول تشغيل لـ Firefox
+CHROME_SRC="$HOME/.mozilla/firefox/chrome"
+USERJS_SRC="$HOME/.mozilla/firefox/user.js"
+[ -d "$CHROME_SRC" ] || exit 0
+sleep 5
+for _ in 1 2 3 4 5 6 7 8 9 10 11 12; do
+  for d in "$HOME/.mozilla/firefox/"*".default"* "$HOME/.var/app/org.mozilla.firefox/.mozilla/firefox/"*".default"* 2>/dev/null; do
+    [ -d "$d" ] || continue
+    [ -d "$d/chrome" ] && continue
+    cp -rn "$CHROME_SRC" "$d/" 2>/dev/null && [ -f "$USERJS_SRC" ] && cp -n "$USERJS_SRC" "$d/user.js" 2>/dev/null && break 2
+  done
+  sleep 10
+done
+FFSCRIPT
+    chmod +x /usr/libexec/zaatar/apply-firefox-theme.sh
+    mkdir -p /etc/skel/.config/autostart
+    cat > /etc/skel/.config/autostart/zaatar-firefox-theme.desktop << 'FFAUTOSTART'
+[Desktop Entry]
+Type=Application
+Name=Zaatar Firefox Theme
+Exec=/usr/libexec/zaatar/apply-firefox-theme.sh
+Hidden=false
+NoDisplay=true
+X-GNOME-Autostart-enabled=true
+X-GNOME-Autostart-Phase=Application
+FFAUTOSTART
+fi
+rm -rf /tmp/WhiteSur-firefox-theme
 
 # GNOME extensions: Dash2Dock, Search Light, Tasks in Panel, Quick Settings, Rounded Corners, No Titlebar, Magic Lamp, Logo Menu
 DASH2DOCK_UUID="dash2dock-lite@icedman.github.com"
