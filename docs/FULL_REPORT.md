@@ -97,9 +97,7 @@ Zaatar/
 
 ## 4. التطبيقات (Flatpak)
 
-| التطبيق | المصدر | الغرض |
-|---------|--------|-------|
-| Pika Backup | Flathub | نسخ احتياطي تلقائي (مثل Time Machine) |
+لا تُثبَّت تطبيقات Flatpak مسبقاً — المستخدم يثبّت من Software (Flathub). راجع [GAMING.md](GAMING.md) و [CONNECT.md](CONNECT.md) للتثبيت اليدوي.
 
 ---
 
@@ -117,7 +115,6 @@ Zaatar/
 | Logo Menu | logomenu@aryan_k | v21 | قائمة أبل في الشريط العلوي |
 | Blur my Shell | blur-my-shell@aunetx | RPM | ضبابية للوحة والـ dash |
 | User Theme | user-theme@gnome-shell-extensions.gcampax.github.com | RPM | ثيم WhiteSur على GNOME Shell |
-| GSConnect | gsconnect@andyholmes.github.io | v58 | مزامنة الحافظة والملفات مع الهاتف (iPhone/Android) |
 
 ---
 
@@ -128,7 +125,6 @@ Zaatar/
 | WhiteSur GTK | vinceliuice/WhiteSur-gtk-theme | GTK3, GTK4, GNOME Shell, libadwaita, GDM |
 | WhiteSur Icons | vinceliuice/WhiteSur-icon-theme | أيقونات WhiteSur-dark |
 | WhiteSur Cursors | vinceliuice/WhiteSur-cursors | مؤشرات شبيهة بـ macOS |
-| WhiteSur Firefox | vinceliuice/WhiteSur-firefox-theme | ثيم Safari-like لـ Firefox (عبر /etc/skel + autostart) |
 
 ---
 

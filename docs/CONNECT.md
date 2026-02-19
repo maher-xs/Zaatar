@@ -1,5 +1,7 @@
 # ربط الهاتف بزعتر (GSConnect)
 
+**التثبيت اليدوي:** ثبّت GSConnect من Software أو من [extensions.gnome.org](https://extensions.gnome.org/extension/1319/gsconnect/).
+
 ## الميزات
 - نسخ على الهاتف → لصق على زعتر تلقائياً
 - نسخ على زعتر → لصق على الهاتف

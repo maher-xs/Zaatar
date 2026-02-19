@@ -15,7 +15,7 @@ Everything included in the image for a complete, ready-to-use system.
 
 | Item | Status |
 |------|--------|
-| Tahoe theme | Dark + blue accent + libadwaita |
+| WhiteSur theme | GTK, GNOME Shell, libadwaita, GDM |
 | WhiteSur icons | macOS Big Sur–style icon theme |
 | Zaatar wallpaper | Set by default |
 | Ultrawide wallpaper | Available in Settings → Appearance |
@@ -40,20 +40,13 @@ Everything included in the image for a complete, ready-to-use system.
 | Console / SSH | Zaatar 1.0 |
 | hostnamectl | Zaatar |
 
-## ✅ Demo user (testing)
-
-| User | Password | Purpose |
-|------|----------|---------|
-| demo | zaatar | Quick testing – no account creation |
-
 ## ✅ Apps
 
 | Source | Use |
 |--------|-----|
 | Base image | Firefox, GNOME apps |
-| Flathub | Install more from **Software** |
-| Ulauncher | Spotlight-like launcher (Super), autostart |
-| Sushi | Quick Look – Space in Nautilus |
+| Flathub | المستخدم يثبّت من **Software** (Pika Backup، Steam، GSConnect، إلخ) |
+| Sushi | Quick Look – Space في Nautilus |
 
 ## ✅ Build & CI
 
