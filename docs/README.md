@@ -9,5 +9,6 @@
 | [LOCALE.md](LOCALE.md) | How to change language and region |
 | [PERFORMANCE.md](PERFORMANCE.md) | zram, power profile, boot speed |
 | [GAMING.md](GAMING.md) | Steam, Bottles, Heroic – ألعاب وتطبيقات Windows |
+| [CONNECT.md](CONNECT.md) | GSConnect – مزامنة الحافظة مع الهاتف (Universal Clipboard) |
 | [PROJECT.md](PROJECT.md) | Project structure and where to change things |
 | [ROADMAP.md](ROADMAP.md) | Development plan |

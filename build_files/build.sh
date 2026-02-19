@@ -6,6 +6,7 @@ set -eoux pipefail
 # Essential packages – language, fonts, input, spellcheck. WhiteSur from GitHub. sushi = Quick Look.
 # user-theme: required for WhiteSur GNOME Shell theme. sassc: for WhiteSur GTK build.
 rpm-ostree install \
+    nautilus-python \
     langpacks-ar langpacks-en \
     google-noto-sans-arabic-fonts \
     google-noto-kufi-arabic-fonts \
@@ -98,7 +99,7 @@ EOF
 # WhiteSur GTK theme (full macOS-like: GTK3, GTK4, GNOME Shell, libadwaita, Flatpak)
 git clone --depth 1 https://github.com/vinceliuice/WhiteSur-gtk-theme /tmp/WhiteSur-gtk
 cd /tmp/WhiteSur-gtk
-./install.sh -c dark -m -l --silent-mode -d /usr/share/themes 2>/dev/null || ./install.sh -c dark -m -l -d /usr/share/themes
+./install.sh -c dark -m -l --silent-mode -d /usr/share/themes 2>/dev/null || true
 # libadwaita (gtk-4.0) for system – run as root for /etc
 ./install.sh -l -c dark -m --silent-mode 2>/dev/null || true
 # GDM theme (login screen)
@@ -115,7 +116,11 @@ rm -rf /tmp/WhiteSur-icons
 
 # WhiteSur cursors (macOS-style)
 git clone --depth 1 https://github.com/vinceliuice/WhiteSur-cursors /tmp/WhiteSur-cursors
-cp -r /tmp/WhiteSur-cursors/dist/WhiteSur-cursors /usr/share/icons/ 2>/dev/null || cp -r /tmp/WhiteSur-cursors/WhiteSur-cursors /usr/share/icons/ 2>/dev/null || true
+if [ -d /tmp/WhiteSur-cursors/dist/WhiteSur-cursors ]; then
+    cp -r /tmp/WhiteSur-cursors/dist/WhiteSur-cursors /usr/share/icons/
+elif [ -d /tmp/WhiteSur-cursors/WhiteSur-cursors ]; then
+    cp -r /tmp/WhiteSur-cursors/WhiteSur-cursors /usr/share/icons/
+fi
 rm -rf /tmp/WhiteSur-cursors
 
 # GNOME extensions: Dash2Dock, Search Light, Tasks in Panel, Quick Settings, Rounded Corners, No Titlebar, Magic Lamp, Logo Menu
@@ -172,6 +177,16 @@ if [ -f /tmp/logomenu.zip ]; then
 fi
 rm -f /tmp/dash2dock.zip /tmp/search-light.zip /tmp/tasks-panel.zip /tmp/qs-tweaks.zip /tmp/rounded.zip /tmp/no-titlebar.zip /tmp/magic-lamp.zip /tmp/logomenu.zip
 
+# GSConnect – مزامنة الحافظة بين زعتر والهاتف (مثل Universal Clipboard)
+GSConnect_UUID="gsconnect@andyholmes.github.io"
+curl -sL "https://extensions.gnome.org/extension-data/gsconnectandyholmes.github.io.v58.shell-extension.zip" \
+    -o /tmp/gsconnect.zip 2>/dev/null || true
+mkdir -p /usr/share/gnome-shell/extensions/${GSConnect_UUID}
+if [ -f /tmp/gsconnect.zip ]; then
+    unzip -o -q /tmp/gsconnect.zip -d /usr/share/gnome-shell/extensions/${GSConnect_UUID}/ 2>/dev/null || true
+fi
+rm -f /tmp/gsconnect.zip
+
 # Zaatar custom wallpaper: install to system backgrounds and set as default (PNG preferred over SVG)
 mkdir -p /usr/share/backgrounds/zaatar
 WALLPAPER_URI=""
@@ -183,8 +198,9 @@ elif [ -f /tmp/zaatar-assets/wallpapers/zaatar-wallpaper.svg ]; then
   WALLPAPER_URI="file:///usr/share/backgrounds/zaatar/zaatar-wallpaper.svg"
 fi
 # Also install ultrawide variant if present (user can select from Settings > Appearance)
-[ -f /tmp/zaatar-assets/wallpapers/zaatar-wallpaper-ultrawide.png ] && \
-  cp /tmp/zaatar-assets/wallpapers/zaatar-wallpaper-ultrawide.png /usr/share/backgrounds/zaatar/
+if [ -f /tmp/zaatar-assets/wallpapers/zaatar-wallpaper-ultrawide.png ]; then
+    cp /tmp/zaatar-assets/wallpapers/zaatar-wallpaper-ultrawide.png /usr/share/backgrounds/zaatar/
+fi
 
 # macOS-like appearance: WhiteSur full theme, Inter font, window buttons left
 mkdir -p /etc/dconf/profile
@@ -223,7 +239,7 @@ fi
 # Extensions: Dash2Dock, Search Light, Tasks in Panel, Blur, Magic Lamp, Logo Menu, User Theme
 cat > /etc/dconf/db/local.d/04-zaatar-extensions << 'EXT'
 [org/gnome/shell]
-enabled-extensions=['dash2dock-lite@icedman.github.com', 'search-light@icedman.github.com', 'tasks-in-panel@fthx', 'quick-settings-tweaks@qwreey', 'rounded-window-corners-reborn@flexagoon', 'no-titlebar-when-maximized@alec.ninja', 'blur-my-shell@aunetx', 'compiz-alike-magic-lamp-effect@hermes83.github.com', 'logomenu@aryan_k', 'user-theme@gnome-shell-extensions.gcampax.github.com']
+enabled-extensions=['dash2dock-lite@icedman.github.com', 'search-light@icedman.github.com', 'tasks-in-panel@fthx', 'quick-settings-tweaks@qwreey', 'rounded-window-corners-reborn@flexagoon', 'no-titlebar-when-maximized@alec.ninja', 'blur-my-shell@aunetx', 'compiz-alike-magic-lamp-effect@hermes83.github.com', 'logomenu@aryan_k', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'gsconnect@andyholmes.github.io']
 favorite-apps=['org.gnome.Nautilus.desktop', 'org.mozilla.firefox.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.Settings.desktop']
 
 [org/gnome/shell/extensions/dash2dock-lite]

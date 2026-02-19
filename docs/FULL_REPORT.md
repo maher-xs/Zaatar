@@ -122,6 +122,7 @@ Zaatar/
 | Logo Menu | logomenu@aryan_k | v21 | قائمة أبل في الشريط العلوي |
 | Blur my Shell | blur-my-shell@aunetx | RPM | ضبابية للوحة والـ dash |
 | User Theme | user-theme@gnome-shell-extensions.gcampax.github.com | RPM | ثيم WhiteSur على GNOME Shell |
+| GSConnect | gsconnect@andyholmes.github.io | v58 | مزامنة الحافظة والملفات مع الهاتف (iPhone/Android) |
 
 ---
 
