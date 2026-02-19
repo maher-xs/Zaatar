@@ -39,15 +39,15 @@ tuned-adm profile throughput-performance
 
 للحفاظ على البطارية: `tuned-adm profile balanced` أو `tuned-adm profile powersave`.
 
-### 3.2 الحركات (مفعّلة/معطّلة افتراضياً)
+### 3.2 الحركات (مفعّلة افتراضياً)
 
-زعتر يعطّل الحركات افتراضياً لواجهة أسرع. لإعادة الحركات (مثل macOS):
+زعتر يفعّل الحركات افتراضياً (مثل macOS). لتعطيلها لواجهة أسرع:
 
 ```bash
-gsettings set org.gnome.desktop.interface enable-animations true
+gsettings set org.gnome.desktop.interface enable-animations false
 ```
 
-أو من Settings → Accessibility → Seeing → Reduce animation (أوقفها).
+أو من Settings → Accessibility → Seeing → Reduce animation (فعّلها).
 
 ### 3.3 zram (مفعّل في زعتر حتى 16GB)
 

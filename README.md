@@ -1,6 +1,6 @@
 # Zaatar (زعتر)
 
-**Zaatar** is an Arabic/English desktop OS image based on [Universal Blue](https://universal-blue.org/) Bluefin. The system is branded as **Zaatar** (in Latin script) everywhere: installer, first boot, login screen, and OS name. It ships with Arabic and English language support, Syrian locale and timezone (Damascus), Noto Arabic fonts, Tahoe theme (macOS-like GNOME), custom Zaatar wallpaper, and Papirus icons.
+**Zaatar** is an Arabic/English desktop OS image based on [Universal Blue](https://universal-blue.org/) Bluefin. The system is branded as **Zaatar** (in Latin script) everywhere: installer, first boot, login screen, and OS name. It ships with Arabic and English language support, Syrian locale and timezone (Damascus), Noto Arabic fonts, Tahoe theme (macOS-like GNOME), WhiteSur icons, custom Zaatar wallpaper, Ulauncher (Spotlight-like), and Quick Look (Sushi).
 
 - **Languages:** Arabic (ar_SY) and English (en_US). Both are installed; you can switch from **Settings → Region & Language** (add English or Arabic and choose the display language). Account names in English (Latin letters) are fully supported.
 - **Base:** [ghcr.io/ublue-os/bluefin:stable](https://github.com/ublue-os/bluefin) (bootc).

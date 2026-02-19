@@ -30,7 +30,7 @@
 
 | # | التطوير | الملف | الحالة |
 |---|---------|-------|--------|
-| 3.1 | ثيم Tahoe (macOS-like) + خلفية زعتر مخصصة + أيقونات Papirus | `build.sh`, `assets/` | تم |
+| 3.1 | ثيم Tahoe + خلفية زعتر + أيقونات WhiteSur (macOS-like) | `build.sh`, `assets/` | تم |
 | 3.2 | التأكد من وضوح الخطوط العربية في كل الواجهة | - | Noto Arabic مضاف؛ مراجعة حجم الخط الافتراضي إن احتجت |
 
 ---
@@ -83,6 +83,8 @@
 | 8.1 | توثيق الأداء والذاكرة (zram، Power Profile) | docs/PERFORMANCE.md | تم |
 | 8.2 | ضبط zram حتى 16GB افتراضياً | build.sh | تم: zram-generator.conf.d |
 | 8.3 | تعيين Power Profile افتراضي (performance) | build.sh | تم: zaatar-power-profile.service |
+| 8.4 | تجربة macOS: WhiteSur icons، أزرار يسار، حركات، hot corners | build.sh | تم |
+| 8.5 | Ulauncher (Spotlight-like) + Sushi (Quick Look) | build.sh | تم |
 
 **ملاحظة:** Fedora يضم zram افتراضياً. التطبيقات تبقى في الذاكرة عند التبديل ولا تُقتل – مثل macOS. راجع [docs/PERFORMANCE.md](PERFORMANCE.md).
 

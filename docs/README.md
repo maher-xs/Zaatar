@@ -2,6 +2,7 @@
 
 | Document | Description |
 |----------|-------------|
+| [REPORT.md](REPORT.md) | **تقرير شامل** – Full system report (Arabic) |
 | [CHECKLIST.md](CHECKLIST.md) | System readiness – everything included |
 | [DOWNLOAD.md](DOWNLOAD.md) | How to download and use artifacts |
 | [EXTENSIONS.md](EXTENSIONS.md) | GNOME extensions (pre-installed + recommended) |

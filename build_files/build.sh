@@ -3,7 +3,8 @@
 # Arabic + English – user can switch between both in Settings > Region & Language.
 set -eoux pipefail
 
-# Essential packages only – language, fonts, input, spellcheck, icons. Apps from Flathub.
+# Essential packages only – language, fonts, input, spellcheck. Apps from Flathub.
+# WhiteSur icons installed from GitHub (macOS-like). sushi = Quick Look (Space in Nautilus).
 rpm-ostree install \
     langpacks-ar langpacks-en \
     google-noto-sans-arabic-fonts \
@@ -12,17 +13,30 @@ rpm-ostree install \
     hunspell-ar \
     hunspell-en-US \
     ibus-m17n \
-    papirus-icon-theme \
     gnome-shell-extension-dash-to-dock \
     gnome-shell-extension-blur-my-shell \
-    gnome-extensions-app
+    gnome-extensions-app \
+    sushi
 
 # Flathub – default source for apps (Firefox, etc. from base; user installs more from Software)
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo 2>/dev/null || true
+# Ulauncher – Spotlight-like launcher (Super to search). Install system-wide.
+flatpak install --system -y flathub com.github.ulauncher.Ulauncher 2>/dev/null || true
 
 # Demo user for testing – log in as demo/zaatar, no account creation needed
 useradd -m -G wheel -s /bin/bash demo 2>/dev/null || true
 echo 'demo:zaatar' | chpasswd 2>/dev/null || true
+# Ulauncher autostart for all users (Spotlight-like, Super to search)
+mkdir -p /etc/xdg/autostart
+cat > /etc/xdg/autostart/ulauncher.desktop << 'ULAUNCHER'
+[Desktop Entry]
+Type=Application
+Name=Ulauncher
+Exec=flatpak run --filesystem=home com.github.ulauncher.Ulauncher
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+ULAUNCHER
 
 # Bilingual locale: Arabic (Syria) and English (US). Both available so user can switch.
 {
@@ -64,6 +78,12 @@ PATH="/tmp:$PATH" HOME=/tmp ./install.sh -d --color blue -la
 PATH="/tmp:$PATH" HOME=/tmp ./install.sh -w
 cd /
 
+# WhiteSur icon theme (macOS Big Sur style) – replaces Papirus for closer macOS look
+git clone --depth 1 https://github.com/vinceliuice/WhiteSur-icon-theme /tmp/WhiteSur-icons
+cd /tmp/WhiteSur-icons
+./install.sh -a
+cd /
+
 # Zaatar custom wallpaper: install to system backgrounds and set as default (PNG preferred over SVG)
 mkdir -p /usr/share/backgrounds/zaatar
 WALLPAPER_URI=""
@@ -78,10 +98,10 @@ fi
 [ -f /tmp/zaatar-assets/wallpapers/zaatar-wallpaper-ultrawide.png ] && \
   cp /tmp/zaatar-assets/wallpapers/zaatar-wallpaper-ultrawide.png /usr/share/backgrounds/zaatar/
 
-# Default appearance: Zaatar wallpaper (if present) + Papirus icons
+# Default appearance: Zaatar wallpaper (if present) + WhiteSur icons (macOS-like)
 cat > /etc/dconf/db/local.d/03-zaatar-appearance << EOF
 [org/gnome/desktop/interface]
-icon-theme='Papirus'
+icon-theme='WhiteSur'
 EOF
 if [ -n "$WALLPAPER_URI" ]; then
   cat >> /etc/dconf/db/local.d/03-zaatar-appearance << EOF
@@ -114,10 +134,14 @@ show-trash=false
 apply-custom-theme=false
 EOF
 
-# Performance: lighter animations for snappier feel (toggle in Settings → Accessibility if needed)
-cat > /etc/dconf/db/local.d/05-zaatar-performance << 'EOF'
+# macOS-like: animations on, window buttons left (red/yellow/green), hot corners
+cat > /etc/dconf/db/local.d/05-zaatar-macos << 'EOF'
 [org/gnome/desktop/interface]
-enable-animations=false
+enable-animations=true
+enable-hot-corners=true
+
+[org/gnome/desktop.wm.preferences]
+button-layout='close,minimize,maximize:'
 EOF
 
 # Allow Flatpaks to use host GTK config (theme)

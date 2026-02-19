@@ -11,14 +11,17 @@ Everything included in the image for a complete, ready-to-use system.
 | Noto Arabic fonts | Installed |
 | Hunspell (ar, en-US) | Spellcheck in apps |
 
-## ✅ Appearance
+## ✅ Appearance (macOS-like)
 
 | Item | Status |
 |------|--------|
-| Tahoe theme (macOS-like) | Dark + blue accent + libadwaita |
-| Zaatar wallpaper | macOS Big Sur–style, set by default |
+| Tahoe theme | Dark + blue accent + libadwaita |
+| WhiteSur icons | macOS Big Sur–style icon theme |
+| Zaatar wallpaper | Set by default |
 | Ultrawide wallpaper | Available in Settings → Appearance |
-| Papirus icons | Default icon theme |
+| Window buttons | Left (close, minimize, maximize) |
+| Animations | Enabled |
+| Hot corners | Enabled |
 | Flatpak theme override | Apps use system theme |
 
 ## ✅ Extensions (enabled on first boot)
@@ -49,6 +52,8 @@ Everything included in the image for a complete, ready-to-use system.
 |--------|-----|
 | Base image | Firefox, GNOME apps |
 | Flathub | Install more from **Software** |
+| Ulauncher | Spotlight-like launcher (Super), autostart |
+| Sushi | Quick Look – Space in Nautilus |
 
 ## ✅ Build & CI
 
@@ -66,7 +71,7 @@ Everything included in the image for a complete, ready-to-use system.
 | zram (memory compression) | ✓ (Fedora default, max 16GB) |
 | Power profile: Performance | ✓ (zaatar-power-profile.service) |
 | Faster boot (no network wait) | ✓ (NetworkManager-wait-online override) |
-| Lighter animations | ✓ (enable-animations=false) |
+| Animations | ✓ (enable-animations=true) |
 | Docs: [PERFORMANCE.md](PERFORMANCE.md) | Tuning, zram, power profile |
 
 ## ✅ Documentation
@@ -78,6 +83,7 @@ Everything included in the image for a complete, ready-to-use system.
 | CONTRIBUTING.md | How to contribute |
 | SECURITY.md | Security policy |
 | docs/README.md | Documentation index |
+| docs/REPORT.md | Full system report (Arabic) |
 | docs/CHECKLIST.md | This file – system readiness |
 | docs/DOWNLOAD.md | Full download steps |
 | docs/EXTENSIONS.md | GNOME extensions |
