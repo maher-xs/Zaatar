@@ -30,6 +30,41 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 # Pika Backup – Time Machine–like backup (Flathub)
 flatpak install --system -y flathub org.gnome.World.PikaBackup 2>/dev/null || true
 
+# ===== الألعاب وتطبيقات Windows =====
+flatpak install --system -y flathub com.valvesoftware.Steam 2>/dev/null || true
+flatpak install --system -y flathub net.davidotek.pupgui2 2>/dev/null || true
+flatpak install --system -y flathub com.usebottles.bottles 2>/dev/null || true
+flatpak install --system -y flathub com.heroicgameslauncher.hgl 2>/dev/null || true
+flatpak install --system -y flathub net.lutris.Lutris 2>/dev/null || true
+flatpak override --filesystem=host com.valvesoftware.Steam --system 2>/dev/null || true
+flatpak override --filesystem=home com.usebottles.bottles --system 2>/dev/null || true
+flatpak override --filesystem=xdg-data/applications com.usebottles.bottles --system 2>/dev/null || true
+# Steam Play (Proton) مفعّل افتراضياً لكل الألعاب
+mkdir -p /etc/skel/.steam/steam/config
+cat > /etc/skel/.steam/steam/config/config.vdf << 'STEAMEOF'
+"InstallConfigStore"
+{
+  "Software"
+  {
+    "Valve"
+    {
+      "Steam"
+      {
+        "CompatToolMapping"
+        {
+          "0"
+          {
+            "name"    "proton_experimental"
+            "config"  ""
+            "Priority" "250"
+          }
+        }
+      }
+    }
+  }
+}
+STEAMEOF
+
 # Demo user for testing – log in as demo/zaatar, no account creation needed
 useradd -m -G wheel -s /bin/bash demo 2>/dev/null || true
 echo 'demo:zaatar' | chpasswd 2>/dev/null || true
@@ -111,14 +146,30 @@ curl -sL "https://extensions.gnome.org/extension-data/rounded-window-corners-reb
 curl -sL "https://extensions.gnome.org/extension-data/no-titlebar-when-maximizedalecdotninja.v19.shell-extension.zip" -o /tmp/no-titlebar.zip 2>/dev/null || true
 curl -sL "https://extensions.gnome.org/extension-data/compiz-alike-magic-lamp-effecthermes83.github.com.v22.shell-extension.zip" -o /tmp/magic-lamp.zip 2>/dev/null || true
 curl -sL "https://extensions.gnome.org/extension-data/logomenuaryan_k.v21.shell-extension.zip" -o /tmp/logomenu.zip 2>/dev/null || true
-[ -f /tmp/dash2dock.zip ] && unzip -o -q /tmp/dash2dock.zip -d /usr/share/gnome-shell/extensions/${DASH2DOCK_UUID}/ 2>/dev/null || true
-[ -f /tmp/search-light.zip ] && unzip -o -q /tmp/search-light.zip -d /usr/share/gnome-shell/extensions/${SEARCH_LIGHT_UUID}/ 2>/dev/null || true
-[ -f /tmp/tasks-panel.zip ] && unzip -o -q /tmp/tasks-panel.zip -d /usr/share/gnome-shell/extensions/${TASKS_PANEL_UUID}/ 2>/dev/null || true
-[ -f /tmp/qs-tweaks.zip ] && unzip -o -q /tmp/qs-tweaks.zip -d /usr/share/gnome-shell/extensions/${QS_TWEAKS_UUID}/ 2>/dev/null || true
-[ -f /tmp/rounded.zip ] && unzip -o -q /tmp/rounded.zip -d /usr/share/gnome-shell/extensions/${ROUNDED_UUID}/ 2>/dev/null || true
-[ -f /tmp/no-titlebar.zip ] && unzip -o -q /tmp/no-titlebar.zip -d /usr/share/gnome-shell/extensions/${NOTITLEBAR_UUID}/ 2>/dev/null || true
-[ -f /tmp/magic-lamp.zip ] && unzip -o -q /tmp/magic-lamp.zip -d /usr/share/gnome-shell/extensions/${MAGIC_LAMP_UUID}/ 2>/dev/null || true
-[ -f /tmp/logomenu.zip ] && unzip -o -q /tmp/logomenu.zip -d /usr/share/gnome-shell/extensions/${LOGOMENU_UUID}/ 2>/dev/null || true
+if [ -f /tmp/dash2dock.zip ]; then
+    unzip -o -q /tmp/dash2dock.zip -d /usr/share/gnome-shell/extensions/${DASH2DOCK_UUID}/ 2>/dev/null || true
+fi
+if [ -f /tmp/search-light.zip ]; then
+    unzip -o -q /tmp/search-light.zip -d /usr/share/gnome-shell/extensions/${SEARCH_LIGHT_UUID}/ 2>/dev/null || true
+fi
+if [ -f /tmp/tasks-panel.zip ]; then
+    unzip -o -q /tmp/tasks-panel.zip -d /usr/share/gnome-shell/extensions/${TASKS_PANEL_UUID}/ 2>/dev/null || true
+fi
+if [ -f /tmp/qs-tweaks.zip ]; then
+    unzip -o -q /tmp/qs-tweaks.zip -d /usr/share/gnome-shell/extensions/${QS_TWEAKS_UUID}/ 2>/dev/null || true
+fi
+if [ -f /tmp/rounded.zip ]; then
+    unzip -o -q /tmp/rounded.zip -d /usr/share/gnome-shell/extensions/${ROUNDED_UUID}/ 2>/dev/null || true
+fi
+if [ -f /tmp/no-titlebar.zip ]; then
+    unzip -o -q /tmp/no-titlebar.zip -d /usr/share/gnome-shell/extensions/${NOTITLEBAR_UUID}/ 2>/dev/null || true
+fi
+if [ -f /tmp/magic-lamp.zip ]; then
+    unzip -o -q /tmp/magic-lamp.zip -d /usr/share/gnome-shell/extensions/${MAGIC_LAMP_UUID}/ 2>/dev/null || true
+fi
+if [ -f /tmp/logomenu.zip ]; then
+    unzip -o -q /tmp/logomenu.zip -d /usr/share/gnome-shell/extensions/${LOGOMENU_UUID}/ 2>/dev/null || true
+fi
 rm -f /tmp/dash2dock.zip /tmp/search-light.zip /tmp/tasks-panel.zip /tmp/qs-tweaks.zip /tmp/rounded.zip /tmp/no-titlebar.zip /tmp/magic-lamp.zip /tmp/logomenu.zip
 
 # Zaatar custom wallpaper: install to system backgrounds and set as default (PNG preferred over SVG)

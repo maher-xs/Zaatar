@@ -100,6 +100,11 @@ Zaatar/
 | التطبيق | المصدر | الغرض |
 |---------|--------|-------|
 | Pika Backup | Flathub | نسخ احتياطي تلقائي (مثل Time Machine) |
+| Steam | com.valvesoftware.Steam | ألعاب Linux و Windows (Proton) |
+| ProtonUp-Qt | net.davidotek.pupgui2 | إدارة إصدارات Proton |
+| Bottles | com.usebottles.bottles | تشغيل تطبيقات Windows (.exe) |
+| Heroic | com.heroicgameslauncher.hgl | ألعاب Epic Games و GOG |
+| Lutris | net.lutris.Lutris | منصة ألعاب شاملة |
 
 ---
 
