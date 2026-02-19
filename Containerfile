@@ -1,5 +1,5 @@
-# Universal Blue Silverblue
-FROM ghcr.io/ublue-os/silverblue:stable
+# Universal Blue Silverblue (silverblue-main هو الاسم الصحيح)
+FROM ghcr.io/ublue-os/silverblue-main:stable
 
 COPY build_files/build.sh /tmp/build.sh
 COPY assets/ /tmp/zaatar-assets/

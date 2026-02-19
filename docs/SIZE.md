@@ -20,4 +20,4 @@
 
 ## القاعدة
 
-**القاعدة:** `ghcr.io/ublue-os/silverblue:stable` (Universal Blue Silverblue).
+**القاعدة:** `ghcr.io/ublue-os/silverblue-main:stable` (Universal Blue Silverblue).

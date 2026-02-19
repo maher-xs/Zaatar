@@ -14,7 +14,7 @@
 
 | البند | الوصف |
 |-------|--------|
-| **القاعدة** | ghcr.io/ublue-os/silverblue:stable |
+| **القاعدة** | ghcr.io/ublue-os/silverblue-main:stable |
 | **التقنية** | bootc (ostree containers) |
 | **سطح المكتب** | GNOME مع ثيم WhiteSur (مطابق لـ macOS) |
 | **اللغات** | العربية (ar_SY) والإنجليزية (en_US) |

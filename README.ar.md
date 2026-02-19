@@ -3,7 +3,7 @@
 **زعتر** نظام تشغيل سطح مكتب عربي/إنجليزي مبني على [Universal Blue Silverblue](https://github.com/ublue-os/main). النظام معرّف باسم **Zaatar** في كل مكان: المثبّت، شاشة تسجيل الدخول، والإعدادات.
 
 - **اللغات:** العربية (ar_SY) والإنجليزية (en_US). يمكنك التبديل من **الإعدادات → المنطقة واللغة**.
-- **القاعدة:** [ghcr.io/ublue-os/silverblue:stable](https://github.com/ublue-os/main) (bootc).
+- **القاعدة:** [ghcr.io/ublue-os/silverblue-main:stable](https://github.com/ublue-os/main) (bootc).
 
 ## التبديل إلى زعتر (من نظام bootc)
 
