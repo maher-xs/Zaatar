@@ -78,7 +78,6 @@ Zaatar/
 |--------|--------|
 | langpacks-ar, langpacks-en | حزم اللغة العربية والإنجليزية |
 | google-noto-sans-arabic-fonts | خطوط عربية |
-| google-noto-kufi-arabic-fonts | خط كوفي |
 | google-noto-sans-fonts | خطوط لاتينية |
 | hunspell-ar, hunspell-en-US | الإملاء |
 | ibus-m17n | إدخال عربي |
@@ -86,10 +85,7 @@ Zaatar/
 | fira-code-fonts | خط أحادي |
 | gnome-shell-extension-blur-my-shell | ضبابية للوحة |
 | gnome-shell-extension-user-theme | ثيم GNOME Shell |
-| gnome-extensions-app | إدارة الإضافات |
 | sushi | Quick Look (Space في Nautilus) |
-| sassc | بناء WhiteSur GTK |
-| glib2-devel, libxml2 | تبعيات WhiteSur |
 | irqbalance | توزيع المقاطعات على CPU |
 | earlyoom | تمنع تجميد النظام عند امتلاء الذاكرة |
 

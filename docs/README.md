@@ -11,5 +11,6 @@
 | [GAMING.md](GAMING.md) | Steam, Bottles, Heroic – تثبيت يدوي من Software |
 | [CONNECT.md](CONNECT.md) | GSConnect – تثبيت يدوي، مزامنة الحافظة مع الهاتف |
 | [OPTIONAL.md](OPTIONAL.md) | Pika Backup، WhiteSur Firefox — تثبيت يدوي |
+| [SIZE.md](SIZE.md) | تقليل حجم الصورة |
 | [PROJECT.md](PROJECT.md) | Project structure and where to change things |
 | [ROADMAP.md](ROADMAP.md) | Development plan |

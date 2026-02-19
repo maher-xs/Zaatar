@@ -8,7 +8,6 @@ set -eoux pipefail
 rpm-ostree install \
     langpacks-ar langpacks-en \
     google-noto-sans-arabic-fonts \
-    google-noto-kufi-arabic-fonts \
     google-noto-sans-fonts \
     hunspell-ar \
     hunspell-en-US \
@@ -17,7 +16,6 @@ rpm-ostree install \
     fira-code-fonts \
     gnome-shell-extension-blur-my-shell \
     gnome-shell-extension-user-theme \
-    gnome-extensions-app \
     sushi \
     sassc \
     glib2-devel \
@@ -65,10 +63,13 @@ cd /tmp/WhiteSur-gtk
 cd /
 rm -rf /tmp/WhiteSur-gtk
 
+# إزالة حزم البناء (لا تُحتاج بعد تثبيت WhiteSur) — تقليل حجم الصورة
+rpm-ostree uninstall sassc glib2-devel libxml2 2>/dev/null || true
+
 # WhiteSur icon theme (macOS Big Sur style)
 git clone --depth 1 https://github.com/vinceliuice/WhiteSur-icon-theme /tmp/WhiteSur-icons
 cd /tmp/WhiteSur-icons
-./install.sh -a
+./install.sh -d /usr/share/icons
 cd /
 rm -rf /tmp/WhiteSur-icons
 
